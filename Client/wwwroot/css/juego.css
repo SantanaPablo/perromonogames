@@ -1,0 +1,108 @@
+.game-container {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.board {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.row {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--mud-palette-lines);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--mud-palette-text-primary);
+}
+
+.cell.correct {
+    background-color: var(--mud-palette-success);
+    color: var(--mud-palette-success-text);
+    border-color: var(--mud-palette-success);
+}
+
+.cell.present {
+    background-color: var(--mud-palette-warning);
+    color: var(--mud-palette-warning-text);
+    border-color: var(--mud-palette-warning);
+}
+
+.cell.absent {
+    background-color: var(--mud-palette-dark);
+    color: var(--mud-palette-dark-text);
+    border-color: var(--mud-palette-dark);
+}
+.board .cell.active-cell {
+    border-color: #007bff; /* Un color de borde distintivo */
+    box-shadow: 0 0 0 2px #007bff; /* Un brillo azul alrededor */
+    outline: none; /* Asegura que el navegador no agregue su propio borde */
+}
+    
+
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.keyboard-row {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.key {
+    min-width: 40px;
+    height: 50px;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--mud-palette-action-disabled-background);
+    color: var(--mud-palette-text-primary);
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.key.special-key {
+    min-width: 60px;
+    background-color: var(--mud-palette-action-disabled);
+    color: var(--mud-palette-action-disabled-text);
+}
+
+.key.key-correct {
+    background-color: var(--mud-palette-success);
+    color: var(--mud-palette-success-text);
+}
+
+.key.key-present {
+    background-color: var(--mud-palette-warning);
+    color: var(--mud-palette-warning-text);
+}
+
+.key.key-absent {
+    background-color: var(--mud-palette-dark);
+    color: var(--mud-palette-dark-text);
+}
+
+.result-message {
+    margin: 20px 0;
+    color: var(--mud-palette-text-primary);
+}

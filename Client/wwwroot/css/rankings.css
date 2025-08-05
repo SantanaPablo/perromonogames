@@ -1,0 +1,112 @@
+.rankings-container {
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+.page-title {
+    color: #4e54c8;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.ranking-list {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.ranking-item {
+    display: flex;
+    align-items: center;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.2s;
+}
+
+    .ranking-item:hover {
+        background: #f8f9ff;
+    }
+
+    .ranking-item.current-user {
+        background: #eef2ff;
+        border-left: 4px solid #4e54c8;
+    }
+
+.rank-position {
+    width: 50px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #495057;
+    display: flex;
+    align-items: center;
+}
+
+    .rank-position .fa-crown {
+        margin-right: 5px;
+    }
+
+.rank-1 {
+    color: #ffd700;
+}
+
+.rank-2 {
+    color: #c0c0c0;
+}
+
+.rank-3 {
+    color: #cd7f32;
+}
+
+.player-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.player-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+.player-name {
+    font-weight: 500;
+}
+
+.player-username {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.player-club {
+    width: 150px;
+}
+
+.club-badge {
+    background: #e0e7ff;
+    color: #4e54c8;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+.player-points {
+    text-align: right;
+    min-width: 80px;
+}
+
+.points-value {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #4e54c8;
+}
+
+.points-label {
+    font-size: 0.85rem;
+    color: #6c757d;
+}

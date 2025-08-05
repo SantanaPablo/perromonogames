@@ -1,0 +1,431 @@
+﻿@page "/adivinar"
+@inject HttpClient Http
+@using Blazored.LocalStorage
+@inject ILocalStorageService LocalStorage
+@inject NavigationManager Navigation
+@using System.Net.Http.Headers
+@using System.Text
+@using System.Text.Json
+@using MiJuegosWeb.Domain.DTOs
+
+<h3 class="text-center mb-4">Adivina la Palabra Diaria</h3>
+
+<div class="game-container" tabindex="0" @onkeydown="HandlePhysicalKey">
+	<div class="board">
+		@for (int row = 0; row < 6; row++)
+		{
+			<div class="row">
+				@for (int col = 0; col < WordLength; col++)
+				{
+					<div class="cell @GetCellClass(row, col)"
+						 @onclick="() => SelectCell(row, col)">
+						@if (row < guesses.Count && col < guesses[row].Length && guesses[row][col] != ' ')
+						{
+							@guesses[row][col]
+						}
+					</div>
+				}
+			</div>
+		}
+	</div>
+
+	<div class="keyboard mt-4">
+		@foreach (var row in new[] { "QWERTYUIOP", "ASDFGHJKLÑ", "ZXCVBNM" })
+		{
+			<div class="keyboard-row">
+				@if (row == "ZXCVBNM")
+				{
+					<button class="key special-key" @onclick="() => HandleKeyPress(EnterKey)" disabled="@(!IsPlaying)">ENTER</button>
+				}
+				@foreach (var key in row)
+				{
+					<button class="key @GetKeyClass(key)"
+							@onclick="() => HandleKeyPress(key.ToString())"
+							disabled="@(!IsPlaying)">
+						@key
+					</button>
+				}
+				@if (row == "ZXCVBNM")
+				{
+					<button class="key special-key" @onclick="() => HandleKeyPress(BackspaceKey)" disabled="@(!IsPlaying)">⌫</button>
+				}
+			</div>
+		}
+	</div>
+
+	<div class="mt-4 text-center">
+		@if (isLoading)
+		{
+			<div class="alert alert-info">Cargando la palabra...</div>
+		}
+		else if (!IsPlaying)
+		{
+			<div class="result-message mb-3">
+				@if (gameStatus == GameStatus.Won)
+				{
+					<div class="alert alert-success">
+						<h4>¡Ganaste! +50 puntos</h4>
+						<p>La palabra era: <strong>@targetWord</strong></p>
+					</div>
+				}
+				else
+				{
+					<div class="alert alert-danger">
+						<h4>¡Perdiste!</h4>
+						<p>La palabra era: <strong>@targetWord</strong></p>
+					</div>
+				}
+			</div>
+			<button class="btn btn-primary" @onclick="NewGame">Jugar de nuevo</button>
+		}
+		else
+		{
+			<div class="mb-3">Intentos restantes: @(6 - currentRow)</div>
+		}
+	</div>
+</div>
+
+@code {
+	private const string EnterKey = "ENTER";
+	private const string BackspaceKey = "⌫";
+
+	private int WordLength = 5;
+	private int gameWordId = 0;
+	private string targetWord = "";
+	private List<string> guesses = new();
+	private int currentRow = 0;
+	private int activeCol = 0;
+	private GameStatus gameStatus = GameStatus.Playing;
+	private Dictionary<char, LetterStatus> keyStatuses = new();
+	private List<List<LetterStatus>> letterStatuses = new();
+	private bool isLoading = true;
+
+	private enum GameStatus { Playing, Won, Lost }
+	private enum LetterStatus { Default, Correct, Present, Absent }
+	private bool IsPlaying => gameStatus == GameStatus.Playing;
+
+	private class GameState
+	{
+		public string TargetWord { get; set; } = "";
+		public List<string> Guesses { get; set; } = new();
+		public int CurrentRow { get; set; }
+		public GameStatus GameStatus { get; set; }
+		public List<List<LetterStatus>> LetterStatuses { get; set; } = new();
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		await StartNewGame();
+	}
+
+	private async Task StartNewGame()
+	{
+		isLoading = true;
+		var daily = await GetDailyWordFromServer();
+
+		if (daily is null)
+		{
+			gameStatus = GameStatus.Lost;
+			isLoading = false;
+			return;
+		}
+
+		gameWordId = daily.GameWordId;
+		WordLength = daily.WordLength;
+
+		if (daily.IsSolved)
+		{
+			targetWord = daily.Word;
+			gameStatus = GameStatus.Won;
+			guesses = new List<string> { targetWord };
+			letterStatuses = new List<List<LetterStatus>> { Enumerable.Repeat(LetterStatus.Correct, WordLength).ToList() };
+		}
+		else
+		{
+			targetWord = "";
+			var userId = await LocalStorage.GetItemAsStringAsync("userId");
+			var saved = await LocalStorage.GetItemAsync<GameState>($"wordGuessState_{gameWordId}_{userId}");
+			if (saved != null)
+			{
+				guesses = saved.Guesses;
+				currentRow = saved.CurrentRow;
+				gameStatus = saved.GameStatus;
+				letterStatuses = saved.LetterStatuses;
+				UpdateKeyStatusesFromGuesses();
+			}
+			else
+			{
+				guesses = Enumerable.Range(0, 6).Select(_ => new string(' ', WordLength)).ToList();
+				letterStatuses = Enumerable.Range(0, 6).Select(_ => Enumerable.Repeat(LetterStatus.Default, WordLength).ToList()).ToList();
+				keyStatuses.Clear();
+				currentRow = 0;
+				activeCol = 0;
+				gameStatus = GameStatus.Playing;
+			}
+		}
+
+		isLoading = false;
+	}
+
+	private async Task<DailyWordInfoDto?> GetDailyWordFromServer()
+	{
+		try
+		{
+			var token = await LocalStorage.GetItemAsStringAsync("authToken");
+			if (string.IsNullOrEmpty(token)) { Navigation.NavigateTo("/login"); return null; }
+
+			Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Trim('"'));
+
+			var response = await Http.GetAsync("api/game/dailyword");
+
+			// === INICIO DEL CAMBIO ===
+			if (!response.IsSuccessStatusCode)
+			{
+				var errorContent = await response.Content.ReadAsStringAsync();
+				Console.WriteLine($"Error al obtener palabra del día: Código de estado {response.StatusCode}. Contenido: {errorContent}");
+				return null;
+			}
+			return await response.Content.ReadFromJsonAsync<DailyWordInfoDto>();
+			// === FIN DEL CAMBIO ===
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error al obtener palabra: {ex.Message}");
+			return null;
+		}
+	}
+
+	private void HandleKeyPress(string key)
+{
+    if (!IsPlaying || currentRow >= 6) return;
+
+    var chars = guesses[currentRow].ToCharArray();
+
+    if (key == EnterKey)
+    {
+        // Solo enviar el intento si la fila está completa
+        if (!guesses[currentRow].Contains(' '))
+        {
+            _ = SubmitGuess(guesses[currentRow]);
+        }
+    }
+    else if (key == BackspaceKey)
+    {
+        // Borra el carácter en la celda activa. Si la celda está vacía, borra la anterior.
+        if (chars[activeCol] != ' ')
+        {
+            chars[activeCol] = ' ';
+        }
+        else if (activeCol > 0)
+        {
+            activeCol--;
+            chars[activeCol] = ' ';
+        }
+
+        guesses[currentRow] = new string(chars);
+    }
+    else if (key.Length == 1 && char.IsLetter(key[0]))
+    {
+        // Si el cursor está en una celda válida, pone la letra ahí
+        if (activeCol < WordLength)
+        {
+            chars[activeCol] = key[0];
+            guesses[currentRow] = new string(chars);
+
+            // Mueve el cursor a la siguiente celda vacía para una mejor usabilidad
+            int nextEmptyCol = -1;
+            for (int i = 0; i < WordLength; i++)
+            {
+                if (guesses[currentRow][i] == ' ')
+                {
+                    nextEmptyCol = i;
+                    break;
+                }
+            }
+            if (nextEmptyCol != -1)
+            {
+                activeCol = nextEmptyCol;
+            }
+            else
+            {
+                // Si la fila está llena, deja el cursor al final
+                activeCol = WordLength - 1;
+            }
+        }
+    }
+
+    StateHasChanged();
+}
+
+	private void HandlePhysicalKey(KeyboardEventArgs e)
+	{
+		string key = e.Key.ToUpper();
+		if (key == "ENTER") HandleKeyPress(EnterKey);
+		else if (key == "BACKSPACE") HandleKeyPress(BackspaceKey);
+		else if (key.Length == 1 && char.IsLetter(key[0])) HandleKeyPress(key);
+	}
+
+	private async Task SubmitGuess(string guess)
+	{
+		var response = await SubmitGuessToServer(guess);
+		if (response?.LetterStatuses == null) return;
+
+		letterStatuses[currentRow] = response.LetterStatuses
+			.ConvertAll(s => Enum.Parse<LetterStatus>(s.ToString()));
+
+		for (int i = 0; i < WordLength; i++)
+		{
+			var c = guess[i];
+			var status = letterStatuses[currentRow][i];
+			if (!keyStatuses.ContainsKey(c) || keyStatuses[c] < status)
+				keyStatuses[c] = status;
+		}
+
+		await SaveGameState();
+
+		if (response.IsSolved)
+		{
+			gameStatus = GameStatus.Won;
+			await GetWordForDisplay();
+			await AwardPoints();
+		}
+		else if (++currentRow >= 6)
+		{
+			gameStatus = GameStatus.Lost;
+			await GetWordForDisplay();
+		}
+		activeCol = 0;
+	}
+
+	private async Task<WordGuessResultDto?> SubmitGuessToServer(string guess)
+	{
+		try
+		{
+			var token = await LocalStorage.GetItemAsStringAsync("authToken");
+			if (string.IsNullOrEmpty(token)) return null;
+
+			Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Trim('"'));
+
+			var req = new WordGuessValidationRequestDto { GameWordId = gameWordId, Guess = guess };
+
+			var json = new StringContent(JsonSerializer.Serialize(req), Encoding.UTF8, "application/json");
+
+			var response = await Http.PostAsync("api/game/guess", json);
+
+			// === INICIO DEL CAMBIO ===
+			if (!response.IsSuccessStatusCode)
+			{
+				var errorContent = await response.Content.ReadAsStringAsync();
+				Console.WriteLine($"Error al enviar intento: Código de estado {response.StatusCode}. Contenido: {errorContent}");
+				return null;
+			}
+			return await response.Content.ReadFromJsonAsync<WordGuessResultDto>();
+			// === FIN DEL CAMBIO ===
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error al enviar intento: {ex.Message}");
+			return null;
+		}
+	}
+
+	private async Task AwardPoints()
+	{
+		try
+		{
+			var token = await LocalStorage.GetItemAsStringAsync("authToken");
+			if (string.IsNullOrEmpty(token)) return;
+
+			Http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Trim('"'));
+			var response = await Http.PostAsync("api/Game/addpoints/50", null);
+
+			if (!response.IsSuccessStatusCode)
+			{
+				Console.WriteLine("Error al sumar puntos: " + response.StatusCode);
+			}
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error al sumar puntos: {ex.Message}");
+		}
+	}
+
+	private async Task GetWordForDisplay()
+	{
+		var info = await GetDailyWordFromServer();
+		if (info != null) targetWord = info.Word;
+	}
+
+	private void SelectCell(int row, int col)
+	{
+		// Solo se puede seleccionar una celda en la fila del intento actual
+		if (IsPlaying && row == currentRow)
+		{
+			activeCol = col;
+			StateHasChanged(); // Forzar el refresco de la UI para mostrar el cursor
+		}
+	}
+
+
+	private string GetCellClass(int row, int col)
+	{
+		var classes = new List<string>();
+		if (letterStatuses.Count > row && letterStatuses[row].Count > col)
+		{
+			classes.Add(letterStatuses[row][col] switch
+			{
+				LetterStatus.Correct => "correct",
+				LetterStatus.Present => "present",
+				LetterStatus.Absent => "absent",
+				_ => ""
+			});
+		}
+		if (row == currentRow && col == activeCol)
+			classes.Add("active-cell");
+		return string.Join(" ", classes);
+	}
+
+	private string GetKeyClass(char key)
+	{
+		return keyStatuses.TryGetValue(key, out var status)
+			? status switch
+			{
+				LetterStatus.Correct => "key-correct",
+				LetterStatus.Present => "key-present",
+				LetterStatus.Absent => "key-absent",
+				_ => ""
+			}
+			: "";
+	}
+
+	private void UpdateKeyStatusesFromGuesses()
+	{
+		keyStatuses.Clear();
+		for (int r = 0; r < currentRow; r++)
+		{
+			for (int c = 0; c < WordLength; c++)
+			{
+				char ch = guesses[r][c];
+				var status = letterStatuses[r][c];
+				if (!keyStatuses.ContainsKey(ch) || keyStatuses[ch] < status)
+					keyStatuses[ch] = status;
+			}
+		}
+	}
+
+	private async Task SaveGameState()
+	{
+		var state = new GameState
+		{
+			TargetWord = targetWord,
+			Guesses = guesses,
+			CurrentRow = currentRow,
+			GameStatus = gameStatus,
+			LetterStatuses = letterStatuses
+		};
+		var userId = await LocalStorage.GetItemAsStringAsync("userId");
+		await LocalStorage.SetItemAsync($"wordGuessState_{gameWordId}_{userId}", state);
+	}
+
+	private async void NewGame() => await StartNewGame();
+}

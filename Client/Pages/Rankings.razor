@@ -1,0 +1,92 @@
+﻿@page "/rankings"
+@attribute [Authorize]
+@inject HttpClient Http
+@inject AuthenticationStateProvider AuthProvider
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+<div class="rankings-container">
+    <h2 class="page-title">
+        <i class="fas fa-trophy me-2"></i>Clasificación Global
+    </h2>
+
+    <div class="ranking-filters mb-4">
+        <div class="btn-group" role="group">
+            <button class="btn btn-outline-primary active">Global</button>
+            <button class="btn btn-outline-primary">Semanal</button>
+            <button class="btn btn-outline-primary">Mensual</button>
+        </div>
+    </div>
+
+    @if (rankings == null)
+    {
+        <div class="loading-container">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="ranking-list">
+            @foreach (var player in rankings)
+            {
+                <div class="ranking-item @(player.Id == currentUserId ? "current-user" : "")">
+                    <div class="rank-position">
+                        @if (player.RankingPosition <= 3)
+                        {
+                            <i class="fas fa-crown rank-@player.RankingPosition"></i>
+                        }
+                        <span>@player.RankingPosition</span>
+                    </div>
+                    <div class="player-info">
+                        <img src="@(player.ProfilePictureUrl ?? $"https://i.pravatar.cc/150?u={player.Id}")"
+                             class="player-avatar"
+                             alt="@player.Username" />
+                        <div>
+                            <div class="player-name">@player.FirstName @player.LastName</div>
+                            <div class="player-username">@@@player.Username</div>
+                        </div>
+                    </div>
+                    <div class="player-club">
+                        @if (!string.IsNullOrEmpty(player.ClubName))
+                        {
+                            <span class="club-badge">@player.ClubName</span>
+                        }
+                    </div>
+                    <div class="player-points">
+                        <span class="points-value">@player.Points</span>
+                        <span class="points-label">pts</span>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private List<UserProfileDto>? rankings;
+    private int currentUserId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var token = await LocalStorage.GetItemAsStringAsync("authToken");
+            if (string.IsNullOrEmpty(token)) return;
+
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.Trim('\"'));
+
+            var authState = await AuthProvider.GetAuthenticationStateAsync();
+            var userIdStr = authState.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (int.TryParse(userIdStr, out int id))
+                currentUserId = id;
+
+            rankings = await Http.GetFromJsonAsync<List<UserProfileDto>>("api/rankings");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al cargar rankings: {ex.Message}");
+        }
+    }
+}

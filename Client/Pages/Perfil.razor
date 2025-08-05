@@ -1,0 +1,106 @@
+﻿@page "/perfil"
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthProvider
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+<h3 class="mb-4 text-primary">Mi Perfil</h3>
+
+@if (userProfile != null)
+{
+    <div class="profile-card shadow-lg">
+        <div class="profile-header bg-gradient-primary">
+            <div class="avatar-container">
+                <img src="@(userProfile.ProfilePictureUrl ?? "https://i.pravatar.cc/150?u=" + userProfile.Id)" class="profile-avatar" alt="Avatar" />
+                <div class="points-badge">
+                    <i class="fas fa-star me-1"></i> @userProfile.Points pts
+                </div>
+            </div>
+
+            <div class="profile-info">
+                <h2>@userProfile.FirstName @userProfile.LastName</h2>
+                <p class="text-light mb-2">@@@userProfile.Username</p>
+
+                <div class="badges">
+                    <span class="badge bg-success">@userProfile.Role</span>
+                    <span class="badge bg-info">@GetUserLevel()</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-body">
+            <div class="detail-item">
+                <i class="fas fa-id-card text-primary"></i>
+                <div>
+                    <div class="detail-label">ID de usuario</div>
+                    <div class="detail-value">@userProfile.Id</div>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <i class="fas fa-envelope text-primary"></i>
+                <div>
+                    <div class="detail-label">Email</div>
+                    <div class="detail-value">@userProfile.Username</div>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <i class="fas fa-trophy text-primary"></i>
+                <div>
+                    <div class="detail-label">Posición en ranking</div>
+                    <div class="detail-value">#@userProfile.RankingPosition</div>
+                </div>
+            </div>
+
+            <div class="detail-item">
+                <i class="fas fa-users text-primary"></i>
+                <div>
+                    <div class="detail-label">Club</div>
+                    <div class="detail-value">@userProfile.ClubName</div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="loading-container">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="mt-2">Cargando perfil...</p>
+    </div>
+}
+
+@code {
+    private UserProfileDto? userProfile;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var token = await LocalStorage.GetItemAsStringAsync("authToken");
+            if (string.IsNullOrEmpty(token)) return;
+
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.Trim('"'));
+            userProfile = await Http.GetFromJsonAsync<UserProfileDto>("api/Auth/profile");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al obtener perfil: {ex.Message}");
+        }
+    }
+
+    private string GetUserLevel()
+    {
+        var points = userProfile?.Points ?? 0;
+        return points switch
+        {
+            > 1000 => "Oro",
+            > 700 => "Plata",
+            > 400 => "Bronce",
+            _ => "Novato"
+        };
+    }
+}

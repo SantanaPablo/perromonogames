@@ -1,0 +1,128 @@
+/* Estilos globales */
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #f5f6fa;
+    margin: 0;
+    padding: 0;
+}
+
+h1:focus {
+    outline: none;
+}
+
+a, .btn-link {
+    color: #0071c1;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+.content {
+    padding: 1.1rem;
+    margin-left: 250px; /* Margen para el menú lateral en PC */
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+code {
+    color: #c02d76;
+}
+
+/* Estilos para el spinner de carga de Blazor */
+.loading-progress {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    margin: 0;
+}
+
+    .loading-progress circle {
+        stroke-dasharray: 180;
+        stroke-dashoffset: 0;
+        transform-origin: center;
+        animation: rotate 2s linear infinite, dash 1.5s ease-in-out infinite;
+        stroke-width: 4;
+        stroke-linecap: round;
+        stroke: #3498db; /* Un azul claro y moderno */
+        fill: none;
+    }
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90, 200;
+        stroke-dashoffset: -35px;
+    }
+
+    100% {
+        stroke-dasharray: 90, 200;
+        stroke-dashoffset: -124px;
+    }
+}
+
+/* Estilos para el texto de carga */
+.loading-progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(50px);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #495057; /* Color de texto gris oscuro */
+    animation: pulse-text 2s infinite ease-in-out;
+}
+
+@keyframes pulse-text {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+/* Ajuste para móviles */
+@media (max-width: 768px) {
+    .content {
+        margin-left: 0; /* Elimina el margen en móviles para que ocupe todo el ancho */
+    }
+}

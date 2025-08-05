@@ -1,0 +1,92 @@
+﻿@using MudBlazor
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components
+@using Blazored.LocalStorage
+@using MiJuegosWeb.Client.Services
+@inherits LayoutComponentBase
+
+<link href="/css/app.css" rel="stylesheet" />
+<link href="/css/perfil.css" rel="stylesheet" />
+<link href="/css/juego.css" rel="stylesheet" />
+<link href="/css/rankings.css" rel="stylesheet" />
+<link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+
+<MudThemeProvider IsDarkMode="true" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudDrawer @bind-Open="_drawerOpen" Anchor="Anchor.Start" Elevation="4" ClipMode="DrawerClipMode.Always" Variant="DrawerVariant.Responsive">
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h6" Class="ml-2">MiJuego</MudText>
+        </MudDrawerHeader>
+        <MudNavMenu>
+            <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Inicio</MudNavLink>
+
+            <AuthorizeView>
+                <Authorized>
+                    <MudNavLink Href="/adivinar" Icon="@Icons.Material.Filled.Help">Adivinar Palabra</MudNavLink>
+                    <MudNavLink Href="/perfil" Icon="@Icons.Material.Filled.Person">Perfil</MudNavLink>
+                    <MudNavLink Href="/rankings" Icon="@Icons.Material.Filled.Leaderboard">Rankings</MudNavLink>
+                    <MudNavLink Href="/clubes" Icon="@Icons.Material.Filled.Groups">Clubes</MudNavLink>
+                    <MudNavLink Href="/juegos" Icon="@Icons.Material.Filled.Gamepad">Juegos</MudNavLink>
+                </Authorized>
+            </AuthorizeView>
+        </MudNavMenu>
+    </MudDrawer>
+
+    <MudAppBar Elevation="4">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" OnClick="@ToggleDrawer" Edge="Edge.Start" Color="Color.Inherit" />
+        <MudSpacer />
+        @if (!string.IsNullOrEmpty(username))
+        {
+            <MudText Typo="Typo.subtitle1">@username</MudText>
+            <MudButton Variant="Variant.Outlined" Color="Color.Error" OnClick="Logout" Class="ml-2">Cerrar sesión</MudButton>
+        }
+        else
+        {
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="/login">Iniciar Sesión</MudButton>
+        }
+    </MudAppBar>
+
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="my-8 pt-4">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+<script src="_content/MudBlazor/MudBlazor.min.js"></script>
+
+@code {
+    private bool _drawerOpen = true;
+    private string? username;
+
+    private void ToggleDrawer()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    [Inject] public AuthenticationStateProvider AuthStateProvider { get; set; } = default!;
+    [Inject] public NavigationManager Navigation { get; set; } = default!;
+    [Inject] public ILocalStorageService LocalStorage { get; set; } = default!;
+    [Inject] public CustomAuthenticationStateProvider CustomAuthStateProvider { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = state.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            username = user.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value;
+        }
+    }
+
+    private async Task Logout()
+    {
+        await LocalStorage.RemoveItemAsync("authToken");
+        CustomAuthStateProvider.MarkUserAsLoggedOut();
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+}

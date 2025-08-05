@@ -1,0 +1,42 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using MiJuegosWeb.Client.Services
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly" OnNavigateAsync="HandleNavigation">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    <RedirectToLogin />
+                </NotAuthorized>
+                <Authorizing>
+                    <p>Cargando...</p>
+                </Authorizing>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p>Página no encontrada.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
+
+@code {
+    private async Task HandleNavigation(NavigationContext context)
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var isAuthenticated = user.Identity?.IsAuthenticated ?? false;
+
+        // Excepciones permitidas sin login:
+        var allowedAnonymous = new[] { "/login", "/registro" };
+        var targetPath = context.Path.ToLower();
+
+        if (!isAuthenticated && !allowedAnonymous.Contains("/" + targetPath))
+        {
+            Navigation.NavigateTo("/login", forceLoad: true);
+        }
+    }
+}

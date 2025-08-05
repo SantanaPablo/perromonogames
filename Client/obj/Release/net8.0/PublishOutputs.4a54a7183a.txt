@@ -1,0 +1,2 @@
+D:\MiJuegosWeb\Client\obj\Release\net8.0\browser-wasm\PubTmp\Out\emcc-props.json
+D:\MiJuegosWeb\Client\obj\Release\net8.0\browser-wasm\PubTmp\Out\web.config

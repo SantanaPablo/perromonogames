@@ -1,0 +1,121 @@
+/* Perfil */
+.profile-container {
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+.profile-card {
+    background: var(--mud-palette-surface);
+    border-radius: 12px;
+    box-shadow: var(--mud-palette-action-disabled);
+    overflow: hidden;
+}
+
+.profile-header {
+    display: flex;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--mud-palette-primary), var(--mud-palette-primary-lighten));
+    color: var(--mud-palette-primary-text);
+}
+
+.avatar-container {
+    position: relative;
+    margin-right: 2rem;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid var(--mud-palette-surface);
+    object-fit: cover;
+}
+
+.points-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: var(--mud-palette-warning);
+    color: var(--mud-palette-warning-text);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.profile-info h2 {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.username {
+    opacity: 0.9;
+    margin-bottom: 1rem;
+    color: var(--mud-palette-primary-text);
+}
+
+.badges .badge {
+    margin-right: 0.5rem;
+    font-size: 0.85rem;
+    padding: 0.4em 0.8em;
+}
+
+.profile-stats {
+    display: flex;
+    background: var(--mud-palette-background-grey);
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--mud-palette-action-disabled-background);
+}
+
+.stat-item {
+    flex: 1;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--mud-palette-primary);
+}
+
+.stat-label {
+    color: var(--mud-palette-text-secondary);
+    font-size: 0.9rem;
+}
+
+.profile-details {
+    padding: 1.5rem 2rem;
+    color: var(--mud-palette-text-primary);
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--mud-palette-action-disabled-background);
+}
+
+.detail-item i {
+    width: 30px;
+    color: var(--mud-palette-primary);
+    font-size: 1.1rem;
+}
+
+/* Responsive del perfil */
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .avatar-container {
+        margin-right: 0;
+        margin-bottom: 1.5rem;
+    }
+
+    .profile-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}

@@ -1,0 +1,32 @@
+﻿@page "/"
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthProvider
+@using System.Security.Claims
+
+<PageTitle>Home</PageTitle>
+
+<h3>Bienvenido a la aplicación</h3>
+
+@if (user is null)
+{
+    <p>Cargando...</p>
+}
+else if (!user.Identity?.IsAuthenticated ?? true)
+{
+    <p>No estás autenticado.</p>
+}
+else
+{
+    <p>Hola, <strong>@user.Identity.Name</strong>!</p>
+    <p>Tu ID es: @user.FindFirst(ClaimTypes.NameIdentifier)?.Value</p>
+}
+
+@code {
+    private ClaimsPrincipal? user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+        user = authState.User;
+    }
+}

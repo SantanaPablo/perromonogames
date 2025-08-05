@@ -1,0 +1,97 @@
+﻿@inherits LayoutComponentBase
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+@using Blazored.LocalStorage
+@inject ILocalStorageService LocalStorage
+@using MiJuegosWeb.Client.Services
+@inject CustomAuthenticationStateProvider CustomAuthStateProvider
+@using System.Security.Claims
+
+<div class="nav-menu-wrapper">
+    <div class="hamburger-icon" @onclick="ToggleNavMenu">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <div class="nav-menu @(isNavMenuOpen ? "open" : "")">
+        <div class="nav-brand">
+            MiJuego
+        </div>
+
+        <AuthorizeView>
+            <Authorized>
+                <ul class="nav-links">
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">Inicio</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/adivinar">Adivinar Palabra</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/perfil">Perfil</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/rankings">Rankings</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/clubes">Clubes</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/juegos">Juegos</NavLink>
+                    </li>
+                </ul>
+
+                <div class="user-info">
+                    <span class="username">@username</span>
+                    <button class="logout-btn" @onclick="Logout">Cerrar sesión</button>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <ul class="nav-links">
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/login">Iniciar Sesión</NavLink>
+                    </li>
+                </ul>
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
+</div>
+
+<div class="nav-overlay @(isNavMenuOpen ? "show" : "")" @onclick="ToggleNavMenu"></div>
+
+@code {
+    private bool isNavMenuOpen = false;
+    private string? username;
+
+    private void ToggleNavMenu()
+    {
+        isNavMenuOpen = !isNavMenuOpen;
+    }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthStateProvider.GetAuthenticationStateAsync();
+        var user = state.User;
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            username = user.FindFirst(ClaimTypes.Name)?.Value;
+        }
+    }
+
+    private async Task Logout()
+    {
+        foreach (var key in await LocalStorage.KeysAsync())
+        {
+            if (key.StartsWith("wordGuessState_") || key == "userId" || key == "authToken")
+            {
+                await LocalStorage.RemoveItemAsync(key);
+            }
+        }
+        CustomAuthStateProvider.MarkUserAsLoggedOut();
+        Navigation.NavigateTo("/", forceLoad: true);
+
+    }
+}

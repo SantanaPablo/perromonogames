@@ -1,0 +1,167 @@
+/* Variables CSS para facilitar la personalización */
+:root {
+    --nav-bg-color: #1a2336;
+    --nav-link-color: #9ba5b7;
+    --nav-link-hover-color: #d1d8e0;
+    --nav-active-bg: #4a90e2;
+    --nav-active-text: #ffffff;
+    --nav-border-color: #2c3a50;
+    --nav-width: 250px;
+    --transition-speed: 0.3s;
+}
+
+/* Estilos para PC (pantallas grandes - por defecto) */
+.nav-menu-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+}
+
+.nav-menu {
+    background-color: var(--nav-bg-color);
+    color: var(--nav-link-color);
+    width: var(--nav-width);
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.hamburger-icon {
+    display: none; /* Oculto en PC por defecto */
+}
+
+/* --- Estilos compartidos para ambos tamaños --- */
+.nav-brand {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: var(--nav-active-bg);
+    text-align: center;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.nav-item {
+    margin-bottom: 5px;
+}
+
+.nav-link {
+    display: block;
+    padding: 12px 15px;
+    color: var(--nav-link-color);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+    .nav-link:hover {
+        background-color: var(--nav-border-color);
+        color: var(--nav-link-hover-color);
+    }
+
+    .nav-link.active {
+        background-color: var(--nav-active-bg);
+        color: var(--nav-active-text);
+        font-weight: bold;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+.user-info {
+    text-align: center;
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid var(--nav-border-color);
+}
+
+.username {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: var(--nav-link-hover-color);
+}
+
+.logout-btn {
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid var(--nav-link-color);
+    color: var(--nav-link-color);
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+}
+
+    .logout-btn:hover {
+        background-color: #e74c3c;
+        border-color: #e74c3c;
+        color: white;
+    }
+
+/* --- Estilos para móviles (pantallas pequeñas) --- */
+@media (max-width: 768px) {
+
+    .nav-menu {
+        position: fixed;
+        left: calc(-1 * var(--nav-width)); /* Oculto por defecto */
+        transition: left var(--transition-speed) ease-in-out;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
+        z-index: 1001;
+    }
+
+        .nav-menu.open {
+            left: 0; /* Desliza el menú para mostrarlo */
+        }
+
+    .hamburger-icon {
+        display: flex; /* Muestra el ícono de hamburguesa en móvil */
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1002;
+        cursor: pointer;
+        width: 30px;
+        height: 25px;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+        .hamburger-icon .bar {
+            width: 100%;
+            height: 3px;
+            background-color: #333;
+            border-radius: 2px;
+        }
+
+    .nav-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity var(--transition-speed);
+    }
+
+        .nav-overlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
+}
