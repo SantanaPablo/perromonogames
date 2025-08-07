@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\fotos\pablo.jpg" />
+    <Folder Include="wwwroot\fotos\" />
   </ItemGroup>
 
 </Project>

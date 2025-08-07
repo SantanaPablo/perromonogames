@@ -214,15 +214,28 @@ export default function Ahorcado({ onLogout }) {
         }
     }, [gameWordId, guessedLetters, incorrectlyGuessedLetters, onLogout, startTime]);
 
-    const awardPoints = useCallback(async () => {
+    const awardPoints = useCallback(async (incorrectCount) => {
+        const basePoints = 500;
+        const pointsPerIncorrectGuess = 50;
+        let pointsToAward = Math.max(0, basePoints - (incorrectCount * pointsPerIncorrectGuess));
+
+        if (pointsToAward === 0) return; // No sumar puntos si el resultado es 0 o negativo
+
         try {
             const token = localStorage.getItem('authToken');
             if (!token) return;
             
-            await fetch(`${import.meta.env.VITE_API_URL}/api/Game/addpoints/50`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/Game/addpoints/${pointsToAward}`, {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token.replace(/"/g, '')}` },
             });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(`Puntos sumados con éxito (${pointsToAward}). Total:`, data.totalPoints);
+            } else {
+                console.error('Error al sumar puntos:', response.status);
+            }
         } catch (ex) {
             console.error('Error al sumar puntos:', ex);
         }
@@ -336,7 +349,7 @@ export default function Ahorcado({ onLogout }) {
                     gameWordId: gameWordId,
                     guessLetter: letter,
                     guessedLetters: [...allGuessedLetters].join(''),
-                    incorrectGuesses: incorrectlyGuessedLetters.size
+                    incorrectGuesses: incorrectlyGuessedLetters.size // Se envía el tamaño actual antes de la posible actualización
                 }),
             });
 
@@ -387,7 +400,7 @@ export default function Ahorcado({ onLogout }) {
                     body: JSON.stringify({
                         gameWordId,
                         guessedLetters: [...guessedLetters, ...newIncorrect].join(''),
-                        incorrectGuesses: newIncorrect.size,
+                        incorrectGuesses: newIncorrect.size, // Se envía el tamaño actualizado
                         isSolved: false,
                         timeTakenSeconds: Math.floor((new Date() - startTime) / 1000)
                     }),
@@ -396,7 +409,7 @@ export default function Ahorcado({ onLogout }) {
 
             if (result.hasWon) {
                 setGameStatus(GameStatus.Won);
-                awardPoints();
+                awardPoints(incorrectlyGuessedLetters.size); // Pasa el número de fallos actuales para el cálculo de puntos
                 saveResultToServer(true);
             } else if (result.hasLost) {
                 setGameStatus(GameStatus.Lost);
@@ -457,6 +470,19 @@ export default function Ahorcado({ onLogout }) {
             <h3 className="text-4xl md:text-5xl font-extrabold text-blue-400 mb-6 text-center">
                 Ahorcado
             </h3>
+
+            {/* Descripción del sistema de puntos */}
+            <div className="text-center mb-4 p-3 bg-gray-800 rounded-lg text-gray-300 text-sm max-w-md">
+                <p className="font-semibold text-base mb-1">Gana puntos adivinando la palabra. ¡Cada fallo resta 50 puntos!</p>
+                <ul className="list-disc list-inside text-left mx-auto max-w-max">
+                    <li>Empiezas con: <strong className="text-green-400">500 pts</strong></li>
+                    <li>Cada fallo resta: <strong className="text-red-400">50 pts</strong></li>
+                    <li>Máximo de fallos: <strong className="text-orange-400">{MAX_INCORRECT_GUESSES}</strong></li>
+                </ul>
+                <p className="mt-2 text-xs text-gray-400">
+                    *Si ganas, tus puntos finales serán 500 menos 50 por cada letra incorrecta.
+                </p>
+            </div>
 
             {isLoading ? (
                 <div className="text-xl text-blue-400 animate-pulse mt-10">

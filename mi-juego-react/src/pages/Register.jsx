@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 /**
  * Componente para la página de registro de nuevos usuarios con
@@ -51,8 +52,20 @@ export default function Register({ onRegisterSuccess }) {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Error al registrar el usuario.');
+        // --- INICIO DE LA CORRECCIÓN EN EL MANEJO DE ERRORES ---
+        let errorMessage = 'Error al registrar el usuario.';
+        const responseText = await response.text(); // Lee el cuerpo UNA SOLA VEZ como texto
+        try {
+          // Intenta parsear el texto como JSON
+          const errorData = JSON.parse(responseText);
+          errorMessage = errorData.message || errorMessage;
+        } catch (jsonParseError) {
+          // Si no es JSON válido, usa el texto plano como mensaje de error
+          errorMessage = responseText || errorMessage;
+          console.error("No se pudo parsear la respuesta de error como JSON:", jsonParseError, "Respuesta de texto:", responseText);
+        }
+        throw new Error(errorMessage);
+        // --- FIN DE LA CORRECCIÓN ---
       }
 
       const data = await response.json();
@@ -82,8 +95,20 @@ export default function Register({ onRegisterSuccess }) {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Código de verificación incorrecto.');
+        // --- INICIO DE LA CORRECCIÓN EN EL MANEJO DE ERRORES ---
+        let errorMessage = 'Código de verificación incorrecto.';
+        const responseText = await response.text(); // Lee el cuerpo UNA SOLA VEZ como texto
+        try {
+          // Intenta parsear el texto como JSON
+          const errorData = JSON.parse(responseText);
+          errorMessage = errorData.message || errorMessage;
+        } catch (jsonParseError) {
+          // Si no es JSON válido, usa el texto plano como mensaje de error
+          errorMessage = responseText || errorMessage;
+          console.error("No se pudo parsear la respuesta de error como JSON:", jsonParseError, "Respuesta de texto:", responseText);
+        }
+        throw new Error(errorMessage);
+        // --- FIN DE LA CORRECCIÓN ---
       }
 
       // Si la verificación es exitosa, se llama a la función de éxito del componente padre
@@ -181,6 +206,9 @@ export default function Register({ onRegisterSuccess }) {
         >
           {loading ? 'Registrando...' : 'Registrarse'}
         </button>
+        <p className="text-center text-sm text-gray-400 mt-6">
+          ¿Ya tienes una cuenta? <Link to="/login" className="text-blue-400 hover:underline">Iniciar sesión</Link>
+        </p>
       </form>
     );
   };

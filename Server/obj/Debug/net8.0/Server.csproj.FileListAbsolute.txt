@@ -662,3 +662,4 @@ C:\Users\USUARIO\Documents\MiJuegosWeb\Server\obj\Debug\net8.0\Server.genruntime
 C:\Users\USUARIO\Documents\MiJuegosWeb\Server\obj\Debug\net8.0\ref\Server.dll
 C:\Users\USUARIO\Documents\MiJuegosWeb\Server\bin\Debug\net8.0\Server.staticwebassets.runtime.json
 E:\MiJuegosWeb\Server\bin\Debug\net8.0\Server.staticwebassets.runtime.json
+C:\Users\USUARIO\Documents\MiJuegosWeb\Server\obj\Debug\net8.0\Server.sourcelink.json

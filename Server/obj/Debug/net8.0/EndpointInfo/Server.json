@@ -239,6 +239,44 @@
         }
       }
     },
+    "/api/Game/dictionary": {
+      "get": {
+        "tags": [
+          "Game"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/GamePin/dailypin": {
       "get": {
         "tags": [
@@ -541,6 +579,38 @@
         }
       }
     },
+    "/api/ProfilePicture/upload": {
+      "post": {
+        "tags": [
+          "ProfilePicture"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Rankings": {
       "get": {
         "tags": [
@@ -617,17 +687,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserProfileDto"
+                "$ref": "#/components/schemas/UpdateUserProfileDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UserProfileDto"
+                "$ref": "#/components/schemas/UpdateUserProfileDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UserProfileDto"
+                "$ref": "#/components/schemas/UpdateUserProfileDto"
               }
             }
           }
@@ -720,12 +790,16 @@
             "type": "integer",
             "format": "int32"
           },
-          "isSolved": {
-            "type": "boolean"
-          },
           "pin": {
             "type": "string",
             "nullable": true
+          },
+          "isSolved": {
+            "type": "boolean"
+          },
+          "attemptsUsed": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -747,6 +821,10 @@
           },
           "isSolved": {
             "type": "boolean"
+          },
+          "attemptsUsed": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -952,6 +1030,36 @@
             "minLength": 0,
             "type": "string",
             "format": "tel",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateUserProfileDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePictureUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "oldPassword": {
+            "type": "string",
+            "nullable": true
+          },
+          "newPassword": {
+            "type": "string",
             "nullable": true
           }
         },

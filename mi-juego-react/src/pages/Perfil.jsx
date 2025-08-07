@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import * as lucide from 'lucide-react';
 
 /**
  * Componente para mostrar la página de perfil del usuario.
@@ -14,7 +15,8 @@ export default function Perfil({ onLogout }) {
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [passwordMessage, setPasswordMessage] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    const [newProfilePicture, setNewProfilePicture] = useState(null);
+
+    // Estados para la lógica de subida de foto de perfil
     const [profilePicturePreview, setProfilePicturePreview] = useState(null);
     const [profilePictureMessage, setProfilePictureMessage] = useState('');
     const [profilePictureError, setProfilePictureError] = useState('');
@@ -32,8 +34,8 @@ export default function Perfil({ onLogout }) {
         }
 
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/Auth/profile`, {
-                headers: { Authorization: "Bearer " + token.replace(/"/g, '') } // Limpiar comillas del token
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/User/profile`, {
+                headers: { Authorization: "Bearer " + token.replace(/"/g, '') }
             });
 
             if (!res.ok) {
@@ -44,13 +46,13 @@ export default function Perfil({ onLogout }) {
             }
             const data = await res.json();
             setUser(data);
-            // Establecer la URL de la imagen de perfil actual si existe
+
+            // Si el usuario ya tiene una foto, la usamos para la vista previa
             if (data.profilePictureUrl) {
-                setProfilePicturePreview(data.profilePictureUrl);
+                setProfilePicturePreview(`${import.meta.env.VITE_API_URL}${data.profilePictureUrl}`);
             }
         } catch (err) {
             console.error("Error al cargar perfil:", err);
-            // Podrías mostrar un mensaje de error en la UI aquí si lo deseas
         } finally {
             setLoading(false);
         }
@@ -67,7 +69,7 @@ export default function Perfil({ onLogout }) {
         if (points > 400) return "Bronce";
         return "Novato";
     };
-    
+
     // Lógica para asignar colores de fondo al nivel.
     const getLevelColor = (level) => {
         if (level === "Oro") return "bg-yellow-500 text-gray-900";
@@ -111,9 +113,6 @@ export default function Perfil({ onLogout }) {
         }
 
         try {
-            // Se envía el objeto completo del usuario junto con las contraseñas
-            // Esto asume que el endpoint /api/User/update de tu backend
-            // está configurado para recibir y procesar 'oldPassword' y 'newPassword'.
             const response = await fetch(`${import.meta.env.VITE_API_URL}/api/User/update`, {
                 method: 'PUT',
                 headers: {
@@ -121,9 +120,8 @@ export default function Perfil({ onLogout }) {
                     'Authorization': `Bearer ${token.replace(/"/g, '')}`
                 },
                 body: JSON.stringify({
-                    ...user, // Envía todos los datos actuales del usuario
                     oldPassword: oldPassword,
-                    newPassword: newPassword
+                    newPassword: newPassword,
                 })
             });
 
@@ -136,31 +134,17 @@ export default function Perfil({ onLogout }) {
             setOldPassword('');
             setNewPassword('');
             setConfirmNewPassword('');
-
         } catch (err) {
             setPasswordError(err.message || 'Error desconocido al cambiar la contraseña.');
         }
     };
 
     // Manejador para la selección de archivo de foto de perfil
-    const handleFileChange = (e) => {
+    // La subida se inicia inmediatamente después de seleccionar el archivo.
+    const handleProfilePictureChange = async (e) => {
         const file = e.target.files[0];
-        if (file) {
-            setNewProfilePicture(file);
-            setProfilePicturePreview(URL.createObjectURL(file)); // Crear URL de previsualización
-            setProfilePictureError('');
-            setProfilePictureMessage('');
-        } else {
-            setNewProfilePicture(null);
-            // No resetear profilePicturePreview para mantener la imagen actual si no se selecciona nada
-        }
-    };
-
-    // Manejador para la subida de foto de perfil y actualización del perfil
-    const handleUploadProfilePicture = async () => {
-        if (!newProfilePicture) {
-            setProfilePictureError('Por favor, selecciona una imagen para subir.');
-            return;
+        if (!file) {
+            return; // No hay archivo seleccionado, salimos
         }
 
         setIsUploading(true);
@@ -168,60 +152,60 @@ export default function Perfil({ onLogout }) {
         setProfilePictureError('');
 
         const token = localStorage.getItem("authToken");
-        if (!token || !user?.id) { // Asegurarse de que el user.id esté disponible
+        if (!token) {
             onLogout();
             setIsUploading(false);
             return;
         }
 
         try {
-            // --- SIMULACIÓN DE SUBIDA DE ARCHIVO Y OBTENCIÓN DE URL ---
-            // En un entorno real, aquí enviarías el 'newProfilePicture' a un endpoint
-            // de subida de archivos (ej: /api/Upload/profilePicture) que devuelve la URL.
-            // Este endpoint de backend sería el encargado de:
-            // 1. Recibir el archivo de imagen.
-            // 2. Guardarlo físicamente en la ruta `dist/fotos/` con el nombre `[user.id].jpg`.
-            // 3. Reemplazar cualquier archivo existente con el mismo nombre.
-            // 4. Devolver la URL pública como `/fotos/[user.id].jpg`.
-            // 5. Para desarrollo, tu backend podría hacer una copia de este archivo
-            //    en `public/fotos/` para que sea fácilmente accesible durante el desarrollo.
-            await new Promise(resolve => setTimeout(resolve, 2000)); // Simular retraso de red
-            const simulatedPictureUrl = `/fotos/${user.id || 'default'}.jpg?t=${new Date().getTime()}`; // Simular URL pública
-            // --- FIN DE SIMULACIÓN DE SUBIDA DE ARCHIVO Y OBTENCIÓN DE URL ---
+            // Mostramos una vista previa del archivo seleccionado antes de subirlo
+            setProfilePicturePreview(URL.createObjectURL(file));
 
-            // Ahora, actualizamos el perfil del usuario con la nueva URL de la imagen
-            const updatedUser = { ...user, profilePictureUrl: simulatedPictureUrl };
+            const formData = new FormData();
+            formData.append('file', file);
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/User/update`, {
-                method: 'PUT',
+            const uploadRes = await fetch(`${import.meta.env.VITE_API_URL}/api/ProfilePicture/upload`, {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token.replace(/"/g, '')}`
                 },
-                body: JSON.stringify(updatedUser)
+                body: formData,
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Error al actualizar la foto de perfil en el servidor.');
+            if (!uploadRes.ok) {
+                const errorData = await uploadRes.json();
+                throw new Error(errorData.message || 'Error al subir la imagen.');
             }
-            
-            // Si la actualización fue exitosa, actualizamos el estado local del usuario
-            setUser(updatedUser);
-            setProfilePicturePreview(simulatedPictureUrl);
-            setProfilePictureMessage('Foto de perfil actualizada exitosamente.');
-            setNewProfilePicture(null); // Limpiar el archivo seleccionado
 
+            const apiResponse = await uploadRes.json();
+            const newUrl = `${import.meta.env.VITE_API_URL}${apiResponse.imageUrl}`;
+
+            setUser(prevUser => ({
+                ...prevUser,
+                profilePictureUrl: apiResponse.imageUrl
+            }));
+            setProfilePicturePreview(newUrl); // Actualizamos la vista previa con la URL final
+            setProfilePictureMessage('Foto de perfil actualizada exitosamente.');
         } catch (err) {
-            setProfilePictureError(err.message || 'Error desconocido al subir o actualizar la foto.');
+            setProfilePictureError(err.message || 'Error desconocido al subir la foto.');
+            // Volvemos a la foto original si la subida falla
+            if (user?.profilePictureUrl) {
+                setProfilePicturePreview(`${import.meta.env.VITE_API_URL}${user.profilePictureUrl}`);
+            }
         } finally {
             setIsUploading(false);
+            // Limpiar la URL de objeto para evitar fugas de memoria
+            if (profilePicturePreview && typeof profilePicturePreview === 'string' && profilePicturePreview.startsWith('blob:')) {
+                URL.revokeObjectURL(profilePicturePreview);
+            }
         }
     };
 
     if (loading || !user) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-gray-950 text-white">
+                <lucide.Loader2 className="animate-spin mr-2 text-blue-400" size={24} />
                 <p className="text-xl text-blue-400">Cargando perfil...</p>
             </div>
         );
@@ -238,30 +222,32 @@ export default function Perfil({ onLogout }) {
                 <div className="relative p-8 bg-gradient-to-r from-blue-700 to-purple-800 rounded-t-xl overflow-hidden">
                     <div className="absolute inset-0 bg-blue-900 opacity-20 transform skew-x-12 -ml-8"></div>
                     <div className="relative flex flex-col md:flex-row items-center md:items-start text-center md:text-left">
-                        <div className="relative w-32 h-32 md:w-40 md:h-40 mb-4 md:mb-0 md:mr-8 group"> {/* Added group for hover effects */}
+                        <div className="relative w-32 h-32 md:w-40 md:h-40 mb-4 md:mb-0 md:mr-8 group">
                             <img
                                 src={profilePicturePreview || `https://placehold.co/150x150/2d3748/ffffff?text=${initials}`}
                                 alt="Avatar"
-                                className="w-full h-full rounded-full border-4 border-gray-800 object-cover shadow-lg transition-opacity duration-300 group-hover:opacity-75"
+                                className={`w-full h-full rounded-full border-4 border-gray-800 object-cover shadow-lg transition-opacity duration-300 ${isUploading ? 'opacity-50' : 'group-hover:opacity-75'}`}
                                 onError={(e) => { e.target.onerror = null; e.target.src = `https://placehold.co/150x150/2d3748/ffffff?text=${initials}`; }}
                             />
-                            {/* Input de archivo oculto */}
-                            <input
-                                type="file"
-                                id="profile-picture-upload"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={handleFileChange}
-                            />
-                            {/* Botón de selección/subida de foto superpuesto */}
+                            {/* Overlay y input de archivo */}
                             <label
                                 htmlFor="profile-picture-upload"
                                 className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                 title="Cambiar foto de perfil"
                             >
-                                <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A.997.997 0 0011.383 3H8.617a.997.997 0 00-.707.293L6.293 4.707A.997.997 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd"></path>
-                                </svg>
+                                {isUploading ? (
+                                    <lucide.Loader2 className="w-10 h-10 text-white animate-spin" />
+                                ) : (
+                                    <lucide.Camera className="w-10 h-10 text-white" />
+                                )}
+                                <input
+                                    type="file"
+                                    id="profile-picture-upload"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={handleProfilePictureChange}
+                                    disabled={isUploading}
+                                />
                             </label>
                             <span className="absolute bottom-0 right-0 bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-xs font-bold transform translate-x-4 translate-y-2">
                                 {user.points} pts
@@ -279,20 +265,10 @@ export default function Perfil({ onLogout }) {
                         </div>
                     </div>
                     {/* Mensajes de estado de la foto de perfil */}
-                    {(profilePictureError || profilePictureMessage || newProfilePicture) && (
-                        <div className="mt-4 text-center md:text-left">
-                            {newProfilePicture && (
-                                <p className="text-gray-400 text-sm mb-2">Archivo seleccionado: {newProfilePicture.name}</p>
-                            )}
-                            {profilePictureError && <p className="text-red-500 text-sm">{profilePictureError}</p>}
-                            {profilePictureMessage && <p className="text-green-500 text-sm">{profilePictureMessage}</p>}
-                            <button
-                                onClick={handleUploadProfilePicture}
-                                disabled={!newProfilePicture || isUploading}
-                                className={`mt-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 shadow-md ${(!newProfilePicture || isUploading) ? 'opacity-50 cursor-not-allowed' : ''}`}
-                            >
-                                {isUploading ? 'Subiendo...' : 'Subir Nueva Foto'}
-                            </button>
+                    {(profilePictureError || profilePictureMessage) && (
+                        <div className="mt-6 text-center md:text-left">
+                            {profilePictureError && <p className="text-red-400 text-sm">{profilePictureError}</p>}
+                            {profilePictureMessage && <p className="text-green-400 text-sm">{profilePictureMessage}</p>}
                         </div>
                     )}
                 </div>
@@ -302,22 +278,22 @@ export default function Perfil({ onLogout }) {
                     <h3 className="text-2xl font-bold mb-4 text-white">Detalles de la cuenta</h3>
                     <div className="space-y-4">
                         <div className="flex items-center space-x-4 p-4 rounded-lg bg-gray-800 hover:bg-gray-700 transition duration-300">
-                            <svg className="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" fillRule="evenodd"></path></svg>
+                            <lucide.User className="w-6 h-6 text-blue-500" />
                             <span className="text-gray-400">Usuario</span>
                             <span className="flex-1 text-right font-medium">@{user.username}</span>
                         </div>
                         <div className="flex items-center space-x-4 p-4 rounded-lg bg-gray-800 hover:bg-gray-700 transition duration-300">
-                            <svg className="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm1.5 5.5a.5.5 0 00-.5.5v2a.5.5 0 00.5.5h1a.5.5 0 00.5-.5v-2a.5.5 0 00-.5-.5h-1zM7 10a.5.5 0 00-.5.5v2a.5.5 0 00.5.5h1a.5.5 0 00.5-.5v-2a.5.5 0 00-.5-.5H7zm4.5-.5a.5.5 0 00-.5.5v2a.5.5 0 00.5.5h1a.5.5 0 00.5-.5v-2a.5.5 0 00-.5-.5h-1zm4.5 0a.5.5 0 00-.5.5v2a.5.5 0 00.5.5h1a.5.5 0 00.5-.5v-2a.5.5 0 00-.5-.5h-1z"></path></svg>
+                            <lucide.Award className="w-6 h-6 text-green-500" />
                             <span className="text-gray-400">Puntos</span>
                             <span className="flex-1 text-right font-bold text-lg text-blue-400">{user.points}</span>
                         </div>
                         <div className="flex items-center space-x-4 p-4 rounded-lg bg-gray-800 hover:bg-gray-700 transition duration-300">
-                            <svg className="w-6 h-6 text-purple-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9a1 1 0 000 2h2a1 1 0 100-2h-2z" clipRule="evenodd"></path></svg>
+                            <lucide.BarChart className="w-6 h-6 text-purple-500" />
                             <span className="text-gray-400">Ranking</span>
                             <span className="flex-1 text-right font-bold text-lg text-purple-400">{user.rankingPosition}</span>
                         </div>
                         <div className="flex items-center space-x-4 p-4 rounded-lg bg-gray-800 hover:bg-gray-700 transition duration-300">
-                            <svg className="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20"><path d="M11 12h3v1h-3v-1zm-3-3h7v1h-7v-1zm4-3h3v1h-3V6zm-4 0h3v1h-3V6z"></path></svg>
+                            <lucide.Users className="w-6 h-6 text-red-500" />
                             <span className="text-gray-400">Club</span>
                             <span className="flex-1 text-right font-medium">{user.clubName}</span>
                         </div>

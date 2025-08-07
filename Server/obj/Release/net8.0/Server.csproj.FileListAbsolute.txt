@@ -265,3 +265,4 @@ E:\MiJuegosWeb\Server\obj\Release\net8.0\refint\Server.dll
 E:\MiJuegosWeb\Server\obj\Release\net8.0\Server.pdb
 E:\MiJuegosWeb\Server\obj\Release\net8.0\Server.genruntimeconfig.cache
 E:\MiJuegosWeb\Server\obj\Release\net8.0\ref\Server.dll
+C:\Users\USUARIO\Documents\MiJuegosWeb\Server\obj\Release\net8.0\Server.sourcelink.json

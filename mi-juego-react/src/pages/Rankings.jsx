@@ -15,7 +15,7 @@ export default function Rankings() {
   useEffect(() => {
     // Usamos la variable de entorno para la URL de la API.
     // Se añade un fallback en caso de que la variable no esté definida.
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const apiUrl = import.meta.env.VITE_API_URL;
     const token = localStorage.getItem("authToken");
 
     if (!token) {
@@ -118,7 +118,7 @@ export default function Rankings() {
 
                   {/* AVATAR + NOMBRE */}
                   <img
-                    src={getAvatarUrl(player.id, player.profilePictureUrl)}
+                    src={getAvatarUrl(player.id,  import.meta.env.VITE_API_URL+player.profilePictureUrl)}
                     className="w-12 h-12 rounded-full border-2 border-gray-600"
                     alt={player.username}
                   />

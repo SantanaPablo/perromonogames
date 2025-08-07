@@ -31,3 +31,4 @@ E:\MiJuegosWeb\Domain\obj\Release\net8.0\Domain.dll
 E:\MiJuegosWeb\Domain\obj\Release\net8.0\refint\Domain.dll
 E:\MiJuegosWeb\Domain\obj\Release\net8.0\Domain.pdb
 E:\MiJuegosWeb\Domain\obj\Release\net8.0\ref\Domain.dll
+C:\Users\USUARIO\Documents\MiJuegosWeb\Domain\obj\Release\net8.0\Domain.sourcelink.json

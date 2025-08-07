@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\MiJuegosWeb\\Server\\Server.csproj": {}
+    "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Server.csproj": {}
   },
   "projects": {
-    "E:\\MiJuegosWeb\\Domain\\Domain.csproj": {
+    "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\MiJuegosWeb\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "E:\\MiJuegosWeb\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\Pablo Santana\\.nuget\\packages\\",
-        "outputPath": "E:\\MiJuegosWeb\\Domain\\obj\\",
+        "projectPath": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\USUARIO\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Pablo Santana\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\USUARIO\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,7 +44,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -65,24 +65,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\MiJuegosWeb\\Server\\Server.csproj": {
+    "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\MiJuegosWeb\\Server\\Server.csproj",
+        "projectUniqueName": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Server.csproj",
         "projectName": "Server",
-        "projectPath": "E:\\MiJuegosWeb\\Server\\Server.csproj",
-        "packagesPath": "C:\\Users\\Pablo Santana\\.nuget\\packages\\",
-        "outputPath": "E:\\MiJuegosWeb\\Server\\obj\\",
+        "projectPath": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Server.csproj",
+        "packagesPath": "C:\\Users\\USUARIO\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Pablo Santana\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\USUARIO\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -97,8 +97,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "E:\\MiJuegosWeb\\Domain\\Domain.csproj": {
-                "projectPath": "E:\\MiJuegosWeb\\Domain\\Domain.csproj"
+              "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Domain.csproj"
               }
             }
           }
@@ -113,7 +113,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -165,7 +165,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

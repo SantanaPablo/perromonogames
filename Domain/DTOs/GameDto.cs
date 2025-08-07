@@ -8,6 +8,7 @@ namespace MiJuegosWeb.Domain.DTOs
         public int WordLength { get; set; }
         public string? Word { get; set; }
         public bool IsSolved { get; set; }
+        public int AttemptsUsed { get; set; } // Propiedad añadida para corregir el error
     }
 
     public class WordGuessValidationRequestDto
@@ -43,9 +44,9 @@ namespace MiJuegosWeb.Domain.DTOs
         public bool IsSolved { get; set; }
         public List<int> DigitStatuses { get; set; } = new(); // 1: correcto, 2: presente, 3: ausente
     }
+
     public enum LetterStatusDTO { Default, Correct, Present, Absent }
 
-    // DTO for adding points
     public class PointsUpdateDto
     {
         public int Points { get; set; }
@@ -103,6 +104,7 @@ namespace MiJuegosWeb.Domain.DTOs
         [MaxLength(26)]
         public string GuessedLetters { get; set; } = string.Empty;
     }
+
     public class HangmanCurrentStateDto
     {
         public string RevealedWord { get; set; } = string.Empty;

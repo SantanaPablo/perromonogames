@@ -138,7 +138,8 @@ export default function App() {
                 <main className="flex-1 md:ml-64 p-8 overflow-y-auto text-white">
                     <Routes>
                         <Route path="/" element={<Navigate to="/perfil" />} />
-                        <Route path="/perfil" element={<Perfil />} />
+                        {/* AQUÍ ES DONDE SE CORRIGE: Pasar la prop onLogout al componente Perfil */}
+                        <Route path="/perfil" element={<Perfil onLogout={handleLogout} />} />
                         <Route path="/register" element={<Navigate to="/perfil" />} /> {/* Redirige si está logueado */}
                         <Route path="/login" element={<Navigate to="/perfil" />} /> {/* Redirige a /perfil si ya está logueado */}
                         <Route path="/rankings" element={<Rankings />} />

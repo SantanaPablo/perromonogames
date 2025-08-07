@@ -105,6 +105,26 @@
   },
   {
     "ContainingType": "MiJuegosWeb.Server.Controllers.GameController",
+    "Method": "GetDictionary",
+    "RelativePath": "api/Game/dictionary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "MiJuegosWeb.Server.Controllers.GameController",
     "Method": "SubmitGuess",
     "RelativePath": "api/Game/guess",
     "HttpMethod": "POST",
@@ -165,7 +185,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "MiJuegosWeb.Domain.DTOs.DailyPinInfoDto",
+        "Type": "MiJuegosWeb.Server.Controllers.GamePinController\u002BDailyPinInfoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -185,13 +205,13 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "MiJuegosWeb.Domain.DTOs.PinGuessRequestDto",
+        "Type": "MiJuegosWeb.Server.Controllers.GamePinController\u002BPinGuessRequestDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "MiJuegosWeb.Domain.DTOs.PinGuessResultDto",
+        "Type": "MiJuegosWeb.Server.Controllers.GamePinController\u002BPinGuessResultDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -322,6 +342,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "ProfilePictureController",
+    "Method": "UploadProfilePicture",
+    "RelativePath": "api/ProfilePicture/upload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "RankingsController",
     "Method": "GetRankings",
     "RelativePath": "api/Rankings",
@@ -391,7 +427,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "MiJuegosWeb.Domain.DTOs.UserProfileDto",
+        "Type": "MiJuegosWeb.Domain.DTOs.UpdateUserProfileDto",
         "IsRequired": true
       }
     ],

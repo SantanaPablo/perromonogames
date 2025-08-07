@@ -53,3 +53,4 @@ C:\Users\USUARIO\Documents\MiJuegosWeb\Domain\obj\Debug\net8.0\Domain.dll
 C:\Users\USUARIO\Documents\MiJuegosWeb\Domain\obj\Debug\net8.0\refint\Domain.dll
 C:\Users\USUARIO\Documents\MiJuegosWeb\Domain\obj\Debug\net8.0\Domain.pdb
 C:\Users\USUARIO\Documents\MiJuegosWeb\Domain\obj\Debug\net8.0\ref\Domain.dll
+C:\Users\USUARIO\Documents\MiJuegosWeb\Domain\obj\Debug\net8.0\Domain.sourcelink.json

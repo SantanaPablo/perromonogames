@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MiJuegosWeb.Domain.DTOs;
+using MiJuegosWeb.Domain.DTOs; // Asegúrate de que estos DTOs estén definidos aquí
 using MiJuegosWeb.Domain.Models;
 using MiJuegosWeb.Server.Data;
 using System.Security.Claims;
@@ -21,6 +21,30 @@ public class GamePinController : ControllerBase
     {
         _context = context;
     }
+
+    // DTOs (Asegúrate de que estos estén en tu carpeta MiJuegosWeb.Domain.DTOs)
+    // ---
+    public class DailyPinInfoDto
+    {
+        public int GamePinId { get; set; }
+        public string? Pin { get; set; } // Será null si no está resuelto
+        public bool IsSolved { get; set; }
+        public int AttemptsUsed { get; set; } // ¡NUEVO! Para el frontend
+    }
+
+    public class PinGuessRequestDto
+    {
+        public int GamePinId { get; set; }
+        public string Guess { get; set; } = string.Empty;
+    }
+
+    public class PinGuessResultDto
+    {
+        public int Attempts { get; set; }
+        public bool IsSolved { get; set; }
+        public List<int> DigitStatuses { get; set; } = new(); // 1: Correcto, 2: Presente, 3: Ausente
+    }
+    // --- Fin DTOs
 
     [HttpGet("dailypin")]
     public async Task<ActionResult<DailyPinInfoDto>> GetDailyPin()
@@ -54,14 +78,20 @@ public class GamePinController : ControllerBase
         if (!int.TryParse(userIdStr, out int userId))
             return Unauthorized("ID de usuario no disponible.");
 
-        var alreadySolved = await _context.PinGuessGameResults
-            .AnyAsync(r => r.UserId == userId && r.GamePinId == gamePin.Id && r.IsSolved);
+        // Buscar el resultado existente para este usuario y PIN del día
+        var userGameResult = await _context.PinGuessGameResults
+            .Where(r => r.UserId == userId && r.GamePinId == gamePin.Id)
+            .FirstOrDefaultAsync();
+
+        var alreadySolved = userGameResult?.IsSolved ?? false;
+        var attemptsUsed = userGameResult?.Attempts ?? 0; // Obtener los intentos usados
 
         return new DailyPinInfoDto
         {
             GamePinId = gamePin.Id,
             Pin = alreadySolved ? gamePin.Pin : null,
-            IsSolved = alreadySolved
+            IsSolved = alreadySolved,
+            AttemptsUsed = attemptsUsed // Enviamos los intentos usados al frontend
         };
     }
 
@@ -76,43 +106,56 @@ public class GamePinController : ControllerBase
         if (gamePin == null)
             return NotFound("PIN del juego no encontrado.");
 
-        var prevResults = await _context.PinGuessGameResults
+        // Intentar encontrar un resultado existente para este usuario y PIN del día
+        var userGameResult = await _context.PinGuessGameResults
             .Where(r => r.UserId == userId && r.GamePinId == gamePin.Id)
-            .ToListAsync();
+            .FirstOrDefaultAsync();
 
-        var alreadySolved = prevResults.Any(r => r.IsSolved);
-        var prevAttempts = prevResults.Count;
+        if (userGameResult == null)
+        {
+            // Es el primer intento del usuario para este PIN del día
+            var game = await _context.Games.FirstOrDefaultAsync(g => g.Name == GameName);
+            userGameResult = new PinGuessGameResult
+            {
+                GameId = game?.Id ?? 0,
+                UserId = userId,
+                GamePinId = request.GamePinId,
+                Attempts = 1, // Primer intento
+                IsSolved = false, // Por defecto no resuelto
+                PlayedAt = DateTime.UtcNow
+            };
+            _context.PinGuessGameResults.Add(userGameResult);
+        }
+        else
+        {
+            // El usuario ya ha hecho intentos para este PIN
+            if (userGameResult.IsSolved)
+                return BadRequest("Ya resolviste este PIN.");
 
-        if (alreadySolved)
-            return BadRequest("Ya resolviste este PIN.");
+            if (userGameResult.Attempts >= 6) // El límite de intentos
+                return BadRequest("Has alcanzado el límite de 6 intentos sin resolver el PIN.");
 
-        if (prevAttempts >= 6)
-            return BadRequest("Has alcanzado el límite de 6 intentos sin resolver el PIN.");
+            userGameResult.Attempts += 1; // Incrementar el número de intentos
+            userGameResult.PlayedAt = DateTime.UtcNow; // Actualizar la fecha del último intento
+            // No es necesario llamar a _context.Update(userGameResult) explícitamente,
+            // EF Core rastrea los cambios de las entidades que ya están en el contexto.
+        }
 
+        // Validar la longitud del PIN
         if (request.Guess.Length != PinLength || !request.Guess.All(char.IsDigit))
             return BadRequest($"El PIN debe tener {PinLength} dígitos numéricos.");
 
         var isCorrect = request.Guess == gamePin.Pin;
         var digitStatuses = GetDigitStatuses(request.Guess, gamePin.Pin);
 
-        var game = await _context.Games.FirstOrDefaultAsync(g => g.Name == GameName);
+        // Actualizar el estado de IsSolved en el registro
+        userGameResult.IsSolved = isCorrect;
 
-        var result = new PinGuessGameResult
-        {
-            GameId = game?.Id ?? 0,
-            UserId = userId,
-            GamePinId = gamePin.Id,
-            Attempts = prevAttempts + 1,
-            IsSolved = isCorrect,
-            PlayedAt = DateTime.UtcNow
-        };
-
-        _context.PinGuessGameResults.Add(result);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(); // Guardar los cambios (ya sea Add o Update)
 
         return new PinGuessResultDto
         {
-            Attempts = result.Attempts,
+            Attempts = userGameResult.Attempts, // Devolver el número de intentos actualizado
             IsSolved = isCorrect,
             DigitStatuses = digitStatuses
         };

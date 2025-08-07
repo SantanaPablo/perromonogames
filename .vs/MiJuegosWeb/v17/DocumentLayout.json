@@ -1,89 +1,101 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\MiJuegosWeb\\",
+  "WorkspaceRootPath": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|e:\\mijuegosweb\\domain\\dtos\\userprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\dtos\\userprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|e:\\mijuegosweb\\server\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|e:\\mijuegosweb\\server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|e:\\mijuegosweb\\server\\controllers\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\server\\controllers\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\controllers\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|e:\\mijuegosweb\\server\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|e:\\mijuegosweb\\server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|e:\\mijuegosweb\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|e:\\mijuegosweb\\server\\controllers\\gamepincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\controllers\\gamepincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|e:\\mijuegosweb\\domain\\dtos\\gamedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\dtos\\gamedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|e:\\mijuegosweb\\server\\controllers\\clubcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\controllers\\clubcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|e:\\mijuegosweb\\domain\\models\\gamepin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\models\\gamepin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|e:\\mijuegosweb\\server\\controllers\\hangmancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\controllers\\hangmancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|e:\\mijuegosweb\\domain\\models\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\models\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|e:\\mijuegosweb\\domain\\models\\gameword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\models\\gameword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|e:\\mijuegosweb\\domain\\models\\clubgameranking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\models\\clubgameranking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|e:\\mijuegosweb\\domain\\dtos\\authmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\dtos\\authmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|e:\\mijuegosweb\\domain\\models\\dictionaryword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\models\\dictionaryword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|e:\\mijuegosweb\\server\\controllers\\rankingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\server\\controllers\\rankingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\controllers\\rankingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|e:\\mijuegosweb\\domain\\models\\individualgameranking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\server\\controllers\\profilepicturecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\controllers\\profilepicturecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\domain\\models\\clubgameranking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\models\\clubgameranking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\domain\\dtos\\gamedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\dtos\\gamedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\domain\\models\\individualgameranking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\models\\individualgameranking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|e:\\mijuegosweb\\domain\\models\\club.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\domain\\models\\gameword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\models\\gameword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\domain\\dtos\\userprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\dtos\\userprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\server\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\server\\controllers\\clubcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\controllers\\clubcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\server\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\domain\\dtos\\updateuserprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\dtos\\updateuserprofiledto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\server\\controllers\\hangmancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\controllers\\hangmancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\server\\controllers\\gamepincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\controllers\\gamepincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\server\\data\\jwthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\data\\jwthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\domain\\models\\gamepin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\models\\gamepin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\domain\\models\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\models\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\domain\\dtos\\authmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\dtos\\authmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\domain\\models\\dictionaryword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\models\\dictionaryword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\domain\\models\\club.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D6670841-8942-4ACB-9D19-DCCD5A0F8612}|Domain\\Domain.csproj|solutionrelative:domain\\models\\club.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|e:\\mijuegosweb\\server\\server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "AbsoluteMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|c:\\users\\usuario\\documents\\mijuegosweb\\server\\server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{BD4A3764-2679-4CA8-A088-FFAC85D4543A}|Server\\Server.csproj|solutionrelative:server\\server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
@@ -94,167 +106,220 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Program.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Server\\Program.cs",
-              "RelativeDocumentMoniker": "Server\\Program.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Server\\Program.cs",
-              "RelativeToolTip": "Server\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T12:52:28.457Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Server\\Data\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "Server\\Data\\ApplicationDbContext.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Server\\Data\\ApplicationDbContext.cs",
-              "RelativeToolTip": "Server\\Data\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAgwCYAAABVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T17:45:52.193Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "GameController.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Server\\Controllers\\GameController.cs",
-              "RelativeDocumentMoniker": "Server\\Controllers\\GameController.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Server\\Controllers\\GameController.cs",
-              "RelativeToolTip": "Server\\Controllers\\GameController.cs",
-              "ViewState": "AgIAAKQAAAAAAAAAAAAswLcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T10:58:58.712Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Server\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "Server\\Controllers\\AuthController.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Server\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "Server\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAwwDgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T12:32:31.27Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Server\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "Server\\Controllers\\UserController.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Server\\Controllers\\UserController.cs",
-              "RelativeToolTip": "Server\\Controllers\\UserController.cs",
-              "ViewState": "AgIAADAAAAAAAAAAAAAowD0AAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T19:53:13.036Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 7,
               "Title": "UserProfileDto.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Domain\\DTOs\\UserProfileDto.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\DTOs\\UserProfileDto.cs",
               "RelativeDocumentMoniker": "Domain\\DTOs\\UserProfileDto.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Domain\\DTOs\\UserProfileDto.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\DTOs\\UserProfileDto.cs",
               "RelativeToolTip": "Domain\\DTOs\\UserProfileDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-03T17:45:02.044Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "GameWord.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Domain\\Models\\GameWord.cs",
-              "RelativeDocumentMoniker": "Domain\\Models\\GameWord.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Domain\\Models\\GameWord.cs",
-              "RelativeToolTip": "Domain\\Models\\GameWord.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Server\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Server\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAmwHsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T17:44:01.346Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "GamePinController.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Server\\Controllers\\GamePinController.cs",
-              "RelativeDocumentMoniker": "Server\\Controllers\\GamePinController.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Server\\Controllers\\GamePinController.cs",
-              "RelativeToolTip": "Server\\Controllers\\GamePinController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAFwAAABTAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T17:46:38.442Z",
+              "WhenOpened": "2025-08-03T12:32:31.27Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "ClubGameRanking.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Domain\\Models\\ClubGameRanking.cs",
-              "RelativeDocumentMoniker": "Domain\\Models\\ClubGameRanking.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Domain\\Models\\ClubGameRanking.cs",
-              "RelativeToolTip": "Domain\\Models\\ClubGameRanking.cs",
+              "DocumentIndex": 5,
+              "Title": "IndividualGameRanking.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Models\\IndividualGameRanking.cs",
+              "RelativeDocumentMoniker": "Domain\\Models\\IndividualGameRanking.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Models\\IndividualGameRanking.cs",
+              "RelativeToolTip": "Domain\\Models\\IndividualGameRanking.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T17:43:56.412Z"
+              "WhenOpened": "2025-08-03T17:44:08.684Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Server\\appsettings.json",
-              "RelativeDocumentMoniker": "Server\\appsettings.json",
-              "ToolTip": "E:\\MiJuegosWeb\\Server\\appsettings.json",
-              "RelativeToolTip": "Server\\appsettings.json",
+              "DocumentIndex": 3,
+              "Title": "ClubGameRanking.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Models\\ClubGameRanking.cs",
+              "RelativeDocumentMoniker": "Domain\\Models\\ClubGameRanking.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Models\\ClubGameRanking.cs",
+              "RelativeToolTip": "Domain\\Models\\ClubGameRanking.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T17:43:56.412Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\appsettings.json",
+              "RelativeDocumentMoniker": "Server\\appsettings.json",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\appsettings.json",
+              "RelativeToolTip": "Server\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-08-05T00:47:52.21Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ClubController.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Server\\Controllers\\ClubController.cs",
-              "RelativeDocumentMoniker": "Server\\Controllers\\ClubController.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Server\\Controllers\\ClubController.cs",
-              "RelativeToolTip": "Server\\Controllers\\ClubController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "RankingsController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\RankingsController.cs",
+              "RelativeDocumentMoniker": "Server\\Controllers\\RankingsController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\RankingsController.cs",
+              "RelativeToolTip": "Server\\Controllers\\RankingsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T18:01:52.306Z"
+              "WhenOpened": "2025-08-03T12:56:02.406Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Game.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Domain\\Models\\Game.cs",
-              "RelativeDocumentMoniker": "Domain\\Models\\Game.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Domain\\Models\\Game.cs",
-              "RelativeToolTip": "Domain\\Models\\Game.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "ProfilePictureController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\ProfilePictureController.cs",
+              "RelativeDocumentMoniker": "Server\\Controllers\\ProfilePictureController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\ProfilePictureController.cs",
+              "RelativeToolTip": "Server\\Controllers\\ProfilePictureController.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAuwDUAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T17:44:00.213Z"
+              "WhenOpened": "2025-08-06T19:06:28.661Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GameController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\GameController.cs",
+              "RelativeDocumentMoniker": "Server\\Controllers\\GameController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\GameController.cs",
+              "RelativeToolTip": "Server\\Controllers\\GameController.cs",
+              "ViewState": "AgIAAPIBAAAAAAAAAAAUwB4CAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T10:58:58.712Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "Server\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "Server\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAA6wDIAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T17:45:52.193Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
+              "Title": "ClubController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\ClubController.cs",
+              "RelativeDocumentMoniker": "Server\\Controllers\\ClubController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\ClubController.cs",
+              "RelativeToolTip": "Server\\Controllers\\ClubController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T18:01:52.306Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GameDto.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\DTOs\\GameDto.cs",
+              "RelativeDocumentMoniker": "Domain\\DTOs\\GameDto.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\DTOs\\GameDto.cs",
+              "RelativeToolTip": "Domain\\DTOs\\GameDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T17:45:02.552Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Program.cs",
+              "RelativeDocumentMoniker": "Server\\Program.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Program.cs",
+              "RelativeToolTip": "Server\\Program.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAYwDYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T12:52:28.457Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GameWord.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Models\\GameWord.cs",
+              "RelativeDocumentMoniker": "Domain\\Models\\GameWord.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Models\\GameWord.cs",
+              "RelativeToolTip": "Domain\\Models\\GameWord.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T17:44:01.346Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "GamePinController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\GamePinController.cs",
+              "RelativeDocumentMoniker": "Server\\Controllers\\GamePinController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\GamePinController.cs",
+              "RelativeToolTip": "Server\\Controllers\\GamePinController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T17:46:38.442Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Server\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Server\\Controllers\\UserController.cs",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAswIYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T19:53:13.036Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "UpdateUserProfileDto.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\DTOs\\UpdateUserProfileDto.cs",
+              "RelativeDocumentMoniker": "Domain\\DTOs\\UpdateUserProfileDto.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\DTOs\\UpdateUserProfileDto.cs",
+              "RelativeToolTip": "Domain\\DTOs\\UpdateUserProfileDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-06T19:16:42.743Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "HangmanController.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Server\\Controllers\\HangmanController.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\HangmanController.cs",
               "RelativeDocumentMoniker": "Server\\Controllers\\HangmanController.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Server\\Controllers\\HangmanController.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Controllers\\HangmanController.cs",
               "RelativeToolTip": "Server\\Controllers\\HangmanController.cs",
               "ViewState": "AgIAAHUBAAAAAAAAAAAowIUBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -262,35 +327,35 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "GameDto.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Domain\\DTOs\\GameDto.cs",
-              "RelativeDocumentMoniker": "Domain\\DTOs\\GameDto.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Domain\\DTOs\\GameDto.cs",
-              "RelativeToolTip": "Domain\\DTOs\\GameDto.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAA7wG4AAAABAAAAAAAAAA==",
+              "DocumentIndex": 17,
+              "Title": "JwtHelper.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Data\\JwtHelper.cs",
+              "RelativeDocumentMoniker": "Server\\Data\\JwtHelper.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Data\\JwtHelper.cs",
+              "RelativeToolTip": "Server\\Data\\JwtHelper.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T17:45:02.552Z"
+              "WhenOpened": "2025-08-06T17:04:49.628Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Game.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Models\\Game.cs",
+              "RelativeDocumentMoniker": "Domain\\Models\\Game.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Models\\Game.cs",
+              "RelativeToolTip": "Domain\\Models\\Game.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-03T17:44:00.213Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 18,
-              "Title": "IndividualGameRanking.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Domain\\Models\\IndividualGameRanking.cs",
-              "RelativeDocumentMoniker": "Domain\\Models\\IndividualGameRanking.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Domain\\Models\\IndividualGameRanking.cs",
-              "RelativeToolTip": "Domain\\Models\\IndividualGameRanking.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T17:44:08.684Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
               "Title": "GamePin.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Domain\\Models\\GamePin.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Models\\GamePin.cs",
               "RelativeDocumentMoniker": "Domain\\Models\\GamePin.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Domain\\Models\\GamePin.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Models\\GamePin.cs",
               "RelativeToolTip": "Domain\\Models\\GamePin.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwA4AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -298,11 +363,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 20,
               "Title": "AuthModels.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Domain\\DTOs\\AuthModels.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\DTOs\\AuthModels.cs",
               "RelativeDocumentMoniker": "Domain\\DTOs\\AuthModels.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Domain\\DTOs\\AuthModels.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\DTOs\\AuthModels.cs",
               "RelativeToolTip": "Domain\\DTOs\\AuthModels.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -310,23 +375,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "RankingsController.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Server\\Controllers\\RankingsController.cs",
-              "RelativeDocumentMoniker": "Server\\Controllers\\RankingsController.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Server\\Controllers\\RankingsController.cs",
-              "RelativeToolTip": "Server\\Controllers\\RankingsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-03T12:56:02.406Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 21,
               "Title": "DictionaryWord.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Domain\\Models\\DictionaryWord.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Models\\DictionaryWord.cs",
               "RelativeDocumentMoniker": "Domain\\Models\\DictionaryWord.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Domain\\Models\\DictionaryWord.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Models\\DictionaryWord.cs",
               "RelativeToolTip": "Domain\\Models\\DictionaryWord.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -334,11 +387,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 22,
               "Title": "Club.cs",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Domain\\Models\\Club.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Models\\Club.cs",
               "RelativeDocumentMoniker": "Domain\\Models\\Club.cs",
-              "ToolTip": "E:\\MiJuegosWeb\\Domain\\Models\\Club.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Domain\\Models\\Club.cs",
               "RelativeToolTip": "Domain\\Models\\Club.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -346,11 +399,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 23,
               "Title": "Server.csproj",
-              "DocumentMoniker": "E:\\MiJuegosWeb\\Server\\Server.csproj",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Server.csproj",
               "RelativeDocumentMoniker": "Server\\Server.csproj",
-              "ToolTip": "E:\\MiJuegosWeb\\Server\\Server.csproj",
+              "ToolTip": "C:\\Users\\USUARIO\\Documents\\MiJuegosWeb\\Server\\Server.csproj",
               "RelativeToolTip": "Server\\Server.csproj",
               "ViewState": "AgIAAB0AAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
