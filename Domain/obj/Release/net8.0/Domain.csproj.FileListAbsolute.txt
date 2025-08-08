@@ -32,3 +32,15 @@ E:\MiJuegosWeb\Domain\obj\Release\net8.0\refint\Domain.dll
 E:\MiJuegosWeb\Domain\obj\Release\net8.0\Domain.pdb
 E:\MiJuegosWeb\Domain\obj\Release\net8.0\ref\Domain.dll
 C:\Users\USUARIO\Documents\MiJuegosWeb\Domain\obj\Release\net8.0\Domain.sourcelink.json
+E:\MiJuegosWeb\perromonogames\Domain\bin\Release\net8.0\Domain.deps.json
+E:\MiJuegosWeb\perromonogames\Domain\bin\Release\net8.0\Domain.dll
+E:\MiJuegosWeb\perromonogames\Domain\bin\Release\net8.0\Domain.pdb
+E:\MiJuegosWeb\perromonogames\Domain\obj\Release\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\MiJuegosWeb\perromonogames\Domain\obj\Release\net8.0\Domain.AssemblyInfoInputs.cache
+E:\MiJuegosWeb\perromonogames\Domain\obj\Release\net8.0\Domain.AssemblyInfo.cs
+E:\MiJuegosWeb\perromonogames\Domain\obj\Release\net8.0\Domain.csproj.CoreCompileInputs.cache
+E:\MiJuegosWeb\perromonogames\Domain\obj\Release\net8.0\Domain.sourcelink.json
+E:\MiJuegosWeb\perromonogames\Domain\obj\Release\net8.0\Domain.dll
+E:\MiJuegosWeb\perromonogames\Domain\obj\Release\net8.0\refint\Domain.dll
+E:\MiJuegosWeb\perromonogames\Domain\obj\Release\net8.0\Domain.pdb
+E:\MiJuegosWeb\perromonogames\Domain\obj\Release\net8.0\ref\Domain.dll

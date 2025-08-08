@@ -1,78 +1,99 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import * as lucide from 'lucide-react'; // Para el icono de carga
-
-// Constantes
+import * as lucide from 'lucide-react';
 const WORD_LENGTH = 5;
 const MAX_GUESSES = 6;
 const ENTER_KEY = "ENTER";
 const BACKSPACE_KEY = "⌫";
-
 const LetterStatus = {
     Default: 'Default',
     Correct: 'Correct',
     Present: 'Present',
     Absent: 'Absent'
 };
-
-const statusMap = {
-    1: LetterStatus.Correct,
-    2: LetterStatus.Present,
-    3: LetterStatus.Absent
-};
-
 const GameStatus = {
     Playing: 'Playing',
     Won: 'Won',
     Lost: 'Lost'
 };
-
+// Función para normalizar palabras (quita tildes y pasa a mayúsculas)
+const normalizeWord = (word) =>
+    word.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
 export default function PalabraDiaria({ onLogout }) {
     const [gameWordId, setGameWordId] = useState(0);
-    const [targetWord, setTargetWord] = useState(''); // Solo se llenará si la palabra es resuelta
+    const [targetWord, setTargetWord] = useState('');
     const [guesses, setGuesses] = useState(Array(MAX_GUESSES).fill(' '.repeat(WORD_LENGTH)));
     const [currentRow, setCurrentRow] = useState(0);
     const [activeCol, setActiveCol] = useState(0);
     const [gameStatus, setGameStatus] = useState(GameStatus.Playing);
     const [keyStatuses, setKeyStatuses] = useState({});
-    const [letterStatuses, setLetterStatuses] = useState(Array(MAX_GUESSES).fill(Array(WORD_LENGTH).fill(LetterStatus.Default)));
+    const [letterStatuses, setLetterStatuses] = useState(
+        Array(MAX_GUESSES).fill(Array(WORD_LENGTH).fill(LetterStatus.Default))
+    );
     const [isLoading, setIsLoading] = useState(true);
-
-    // Estado para controlar límite de intentos
     const [errorAttemptsExceeded, setErrorAttemptsExceeded] = useState(false);
-
     const isPlaying = gameStatus === GameStatus.Playing && !errorAttemptsExceeded;
-
-    const getDailyWordFromServer = useCallback(async () => {
-        setIsLoading(true);
+    // Calcular letterStatuses localmente
+    const getGuessLetterStatusesLocal = useCallback((guess, target) => {
+        const statusList = Array(target.length).fill(LetterStatus.Absent);
+        const targetChars = target.split('');
+        const guessChars = guess.split('');
+        const used = Array(target.length).fill(false);
+        // Paso 1: letras correctas
+        for (let i = 0; i < target.length; i++) {
+            if (guessChars[i] === targetChars[i]) {
+                statusList[i] = LetterStatus.Correct;
+                used[i] = true;
+            }
+        }
+        // Paso 2: letras presentes
+        for (let i = 0; i < target.length; i++) {
+            if (statusList[i] === LetterStatus.Correct) continue;
+            for (let j = 0; j < target.length; j++) {
+                if (!used[j] && guessChars[i] === targetChars[j]) {
+                    statusList[i] = LetterStatus.Present;
+                    used[j] = true;
+                    break;
+                }
+            }
+        }
+        return statusList;
+    }, []);
+    // ---------- CAMBIO: submitGuessToServer ahora acepta isSolved y attemptsUsed ----------
+    const submitGuessToServer = useCallback(async (guess, isSolved = false, attemptsUsed = null) => {
         try {
             const token = localStorage.getItem('authToken');
             if (!token) {
                 onLogout();
                 return null;
             }
-
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/game/dailyword`, {
-                headers: { Authorization: "Bearer " + token.replace(/"/g, '') },
+            const requestBody = { 
+                GameWordId: gameWordId, 
+                Guess: guess, 
+                IsSolved: isSolved ? 1 : 0 
+            };
+            if (attemptsUsed !== null) requestBody.AttemptsUsed = attemptsUsed;
+            console.log("Enviando intento al servidor:", requestBody);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/game/guess`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token.replace(/"/g, '')}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
             });
-
             if (!response.ok) {
                 if (response.status === 401) onLogout();
-                console.error('Error al obtener palabra del día:', response.statusText);
                 return null;
             }
-
-            const data = await response.json();
-            // data ahora incluye 'attemptsUsed' del backend
-            return data;
-
+            const json = await response.json();
+            console.log("Respuesta servidor:", json);
+            return json;
         } catch (error) {
-            console.error('Error al obtener palabra del día:', error);
+            console.error('Error enviando intento:', error);
             return null;
-        } finally {
-            setIsLoading(false);
         }
-    }, [onLogout]);
-
+    }, [gameWordId, onLogout]);
+    // -------------------------------------------------------------------------------------
     const awardPoints = useCallback(async (attempts) => {
         let pointsToAward = 0;
         switch (attempts) {
@@ -84,146 +105,151 @@ export default function PalabraDiaria({ onLogout }) {
             case 6: pointsToAward = 50; break;
             default: pointsToAward = 0; break;
         }
-
         if (pointsToAward === 0) return;
-
         try {
             const token = localStorage.getItem('authToken');
             if (!token) return;
-
             const response = await fetch(`${import.meta.env.VITE_API_URL}/api/Game/addpoints/${pointsToAward}`, {
                 method: 'POST',
                 headers: { Authorization: "Bearer " + token.replace(/"/g, '') },
             });
-
-            if (!response.ok) {
-                console.error('Error al sumar puntos:', response.status);
-            } else {
+            if (response.ok) {
                 const data = await response.json();
-                console.log(`Puntos sumados con éxito (${pointsToAward}). Total:`, data.totalPoints);
+                console.log(`Puntos sumados (${pointsToAward}). Total:`, data.totalPoints);
+            } else {
+                console.error('Error al sumar puntos:', response.status);
             }
         } catch (ex) {
-            console.error(`Excepción al sumar puntos: ${ex.message}`);
+            console.error(`Error al sumar puntos: ${ex.message}`);
         }
     }, []);
-
-    const submitGuessToServer = useCallback(async (guess) => {
+    const loadInitialData = useCallback(async () => {
+        setIsLoading(true);
         try {
             const token = localStorage.getItem('authToken');
-            if (!token) {
-                onLogout();
-                return null;
+            if (!token) return onLogout();
+            // Diccionario
+            let dictionary = JSON.parse(localStorage.getItem('wordDictionary'));
+            if (!dictionary) {
+                const resDict = await fetch(`${import.meta.env.VITE_API_URL}/api/game/dictionary`, {
+                    headers: { Authorization: "Bearer " + token.replace(/"/g, '') },
+                });
+                dictionary = await resDict.json();
+                dictionary = dictionary.map(w => normalizeWord(w));
+                localStorage.setItem('wordDictionary', JSON.stringify(dictionary));
             }
-
-            const requestBody = {
-                GameWordId: gameWordId,
-                Guess: guess,
-            };
-
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/game/guess`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token.replace(/"/g, '')}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestBody),
-            });
-
-            if (!response.ok) {
-                const errorContent = await response.text();
-                if (response.status === 401) onLogout();
-                return { error: errorContent };
+            // Palabra diaria
+            let daily = JSON.parse(localStorage.getItem('dailyWord'));
+            if (!daily || daily.date !== new Date().toISOString().split('T')[0]) {
+                const resDaily = await fetch(`${import.meta.env.VITE_API_URL}/api/game/dailyword`, {
+                    headers: { Authorization: "Bearer " + token.replace(/"/g, '') },
+                });
+                daily = await resDaily.json();
+                daily.word = normalizeWord(daily.word); // Normalizar la palabra al guardar
+                daily.date = new Date().toISOString().split('T')[0]; // Guardar la fecha para la validación del día
+                localStorage.setItem('dailyWord', JSON.stringify(daily));
             }
-
-            const data = await response.json();
-            return data;
-
-        } catch (error) {
-            console.error('Error enviando intento:', error);
-            return { error: error.message };
+            setTargetWord(daily.word);
+            setGameWordId(daily.gameWordId);
+            // Restaurar progreso guardado
+            const savedGuesses = JSON.parse(localStorage.getItem('guessedWords') || '[]');
+            const savedStatuses = JSON.parse(localStorage.getItem('letterStatuses') || '[]');
+            if (savedGuesses.length > 0) {
+                setGuesses(prev => {
+                    const updated = [...prev];
+                    savedGuesses.forEach((w, i) => updated[i] = w);
+                    return updated;
+                });
+                if (savedStatuses.length > 0) {
+                    setLetterStatuses(savedStatuses);
+                }
+                setCurrentRow(savedGuesses.length);
+            } else {
+                setCurrentRow(daily.attemptsUsed);
+            }
+            if (daily.isSolved) {
+                setGameStatus(GameStatus.Won);
+                // ✅ Eliminado: awardPoints(daily.attemptsUsed);
+            } else if (daily.attemptsUsed >= MAX_GUESSES) {
+                setErrorAttemptsExceeded(true);
+                setGameStatus(GameStatus.Lost);
+            }
+        } catch (err) {
+            console.error("Error inicial:", err);
+        } finally {
+            setIsLoading(false);
         }
-    }, [gameWordId, onLogout]);
-
-    const saveGameState = useCallback(() => {
-        const userId = localStorage.getItem('userId');
-        const state = {
-            // targetWord no se guarda porque solo se revela al ganar
-            Guesses: guesses,
-            CurrentRow: currentRow,
-            GameStatus: gameStatus,
-            LetterStatuses: letterStatuses
-        };
-        localStorage.setItem(`wordGuessState_${gameWordId}_${userId}`, JSON.stringify(state));
-    }, [guesses, currentRow, gameStatus, letterStatuses, gameWordId]);
-
-    const submitGuess = useCallback(async (guess) => {
+    }, [onLogout]);
+    const submitGuess = useCallback((guess) => {
         if (guess.length !== WORD_LENGTH) return;
         if (!isPlaying) return;
-
-        const response = await submitGuessToServer(guess);
-        if (!response) return;
-
-        if (response.error) {
-            if (response.error.includes("límite de 6 intentos") || response.error.includes("Ya has resuelto esta palabra")) {
-                setErrorAttemptsExceeded(true);
-                setGameStatus(GameStatus.Lost); // O GameStatus.Won si el error es "ya resuelto"
-                return;
-            } else {
-                console.error("Error inesperado:", response.error);
-                return;
-            }
+        const dictionary = JSON.parse(localStorage.getItem('wordDictionary')) || [];
+        const daily = JSON.parse(localStorage.getItem('dailyWord'));
+        const normalizedGuess = normalizeWord(guess);
+        if (!dictionary.includes(normalizedGuess)) {
+            alert("La palabra no está en el diccionario.");
+            return;
         }
-
-        // Actualiza estados con respuesta válida
+        const normalizedTarget = daily.word; // Ya está normalizada
+        // Guardar intento
+        let guessedWords = JSON.parse(localStorage.getItem('guessedWords') || '[]');
+        guessedWords[currentRow] = normalizedGuess;
+        localStorage.setItem('guessedWords', JSON.stringify(guessedWords));
+        // Calcular estados localmente
+        const localStatuses = getGuessLetterStatusesLocal(normalizedGuess, normalizedTarget);
+        // Actualizar tablero
+        const updatedGuesses = [...guesses];
+        updatedGuesses[currentRow] = normalizedGuess;
+        setGuesses(updatedGuesses);
         const updatedLetterStatuses = [...letterStatuses];
-        updatedLetterStatuses[currentRow] = response.letterStatuses.map(s => statusMap[s]);
+        updatedLetterStatuses[currentRow] = localStatuses;
         setLetterStatuses(updatedLetterStatuses);
-
+        localStorage.setItem('letterStatuses', JSON.stringify(updatedLetterStatuses));
+        // Actualizar teclado
         const updatedKeyStatuses = { ...keyStatuses };
-        for (let i = 0; i < WORD_LENGTH; i++) {
-            const char = guess[i];
-            const status = updatedLetterStatuses[currentRow][i];
-            // Solo actualiza si el nuevo estado es "mejor" (Correct > Present > Absent)
-            if (!updatedKeyStatuses[char] || Object.values(LetterStatus).indexOf(updatedKeyStatuses[char]) < Object.values(LetterStatus).indexOf(status)) {
+        normalizedGuess.split('').forEach((char, idx) => {
+            const status = localStatuses[idx];
+            if (!updatedKeyStatuses[char] ||
+                Object.values(LetterStatus).indexOf(updatedKeyStatuses[char]) <
+                Object.values(LetterStatus).indexOf(status)) {
                 updatedKeyStatuses[char] = status;
             }
-        }
+        });
         setKeyStatuses(updatedKeyStatuses);
-
-        let newStatus = gameStatus;
-        if (response.isSolved) {
-            newStatus = GameStatus.Won;
-            setTargetWord(guess); // Revela la palabra al ganar
-            await awardPoints(response.attempts); // Pasa el número de intento actual para los puntos
-        } else if (response.attempts >= MAX_GUESSES) { // Usa response.attempts para verificar el límite
-            newStatus = GameStatus.Lost;
+        const isCorrect = normalizedGuess === normalizedTarget;
+        if (isCorrect) {
+            setGameStatus(GameStatus.Won);
+            // ✅ Actualizar el localStorage y otorgar puntos
+            let updatedDaily = { ...daily, isSolved: true, attemptsUsed: currentRow + 1 };
+            localStorage.setItem('dailyWord', JSON.stringify(updatedDaily));
+            awardPoints(currentRow + 1);
+        } else if (currentRow + 1 >= MAX_GUESSES) {
+            setGameStatus(GameStatus.Lost);
         }
-
-        setGameStatus(newStatus);
-
-        const updatedGuesses = [...guesses];
-        updatedGuesses[currentRow] = guess;
-        setGuesses(updatedGuesses);
-
-        saveGameState();
-
-        if (newStatus === GameStatus.Playing) {
-            setCurrentRow(currentRow + 1);
+        // Avanzar fila
+        setCurrentRow(prev => {
+            const newRow = prev + 1;
             setActiveCol(0);
-        } else {
-            setActiveCol(0); // Deshabilita la selección de columna si el juego terminó
-        }
-    }, [guesses, currentRow, submitGuessToServer, letterStatuses, keyStatuses, gameStatus, saveGameState, awardPoints, isPlaying]);
-
+            return newRow;
+        });
+        // ---------- CAMBIO: ahora pasamos isCorrect y attemptsUsed ----------
+        submitGuessToServer(normalizedGuess, isCorrect, currentRow + 1).then(response => {
+            if (!response) return;
+            if (response.isSolved) {
+                // Aquí ya no hace falta llamar a awardPoints porque ya se hizo en el frontend
+            } else if (response.attempts >= MAX_GUESSES) {
+                setGameStatus(GameStatus.Lost);
+            }
+        });
+        // ------------------------------------------------------------------
+    }, [currentRow, guesses, isPlaying, keyStatuses, letterStatuses, submitGuessToServer, awardPoints, getGuessLetterStatusesLocal]);
     const handleKeyPress = useCallback((key) => {
         if (!isPlaying || currentRow >= MAX_GUESSES) return;
-
         let newGuesses = [...guesses];
         let rowChars = newGuesses[currentRow].split('');
         let newActiveCol = activeCol;
-
         if (key === ENTER_KEY) {
-            if (!rowChars.some(char => char === ' ')) { // Si la fila está completa
+            if (!rowChars.some(char => char === ' ')) {
                 submitGuess(newGuesses[currentRow]);
             }
         } else if (key === BACKSPACE_KEY) {
@@ -237,109 +263,11 @@ export default function PalabraDiaria({ onLogout }) {
                 newActiveCol = activeCol + 1;
             }
         }
-
         newGuesses[currentRow] = rowChars.join('');
         setGuesses(newGuesses);
         setActiveCol(newActiveCol);
     }, [guesses, currentRow, activeCol, isPlaying, submitGuess]);
-
-    const startNewGame = useCallback(async () => {
-        setIsLoading(true);
-        setErrorAttemptsExceeded(false);
-
-        const daily = await getDailyWordFromServer();
-        if (!daily) {
-            setGameStatus(GameStatus.Lost); // No se pudo cargar la palabra
-            setIsLoading(false);
-            return;
-        }
-
-        setGameWordId(daily.gameWordId);
-
-        // Si el backend indica que ya se excedieron los intentos o ya está resuelto
-        if (daily.isSolved) {
-            setTargetWord(daily.word); // La palabra ya está resuelta, la mostramos
-            setGameStatus(GameStatus.Won);
-            // Reconstruir el tablero para mostrar la palabra resuelta
-            setGuesses([daily.word].concat(Array(MAX_GUESSES - 1).fill(' '.repeat(WORD_LENGTH))));
-            setLetterStatuses([Array(WORD_LENGTH).fill(LetterStatus.Correct)].concat(Array(MAX_GUESSES - 1).fill(Array(WORD_LENGTH).fill(LetterStatus.Default))));
-            setCurrentRow(daily.attemptsUsed); // Establecer la fila actual a los intentos usados
-            setActiveCol(0);
-            setIsLoading(false);
-            return;
-        } else if (daily.attemptsUsed >= MAX_GUESSES) {
-            setErrorAttemptsExceeded(true);
-            setGameStatus(GameStatus.Lost);
-            setIsLoading(false);
-            return;
-        }
-
-        const userId = localStorage.getItem('userId');
-        const savedState = JSON.parse(localStorage.getItem(`wordGuessState_${daily.gameWordId}_${userId}`) || 'null');
-
-        // Lógica para decidir si cargar el estado guardado o inicializar desde los intentos del backend
-        let initialCurrentRow = daily.attemptsUsed; // Por defecto, usa los intentos del backend
-        let initialGuesses = Array(MAX_GUESSES).fill(' '.repeat(WORD_LENGTH));
-        let initialLetterStatuses = Array(MAX_GUESSES).fill(Array(WORD_LENGTH).fill(LetterStatus.Default));
-        let initialKeyStatuses = {};
-        let initialGameStatus = GameStatus.Playing;
-        let initialTargetWord = ''; // Por defecto, la palabra no está revelada
-
-        if (savedState && savedState.CurrentRow >= daily.attemptsUsed) {
-            // Cargar estado guardado si existe y no está "atrasado" con respecto al backend
-            initialGuesses = savedState.Guesses;
-            initialCurrentRow = savedState.CurrentRow;
-            initialGameStatus = savedState.GameStatus;
-            initialLetterStatuses = savedState.LetterStatuses;
-            // initialTargetWord = savedState.TargetWord; // No guardar targetWord en localStorage para mantenerlo oculto
-
-            // Reconstruir keyStatuses desde savedLetterStatuses
-            const newKeyStatuses = {};
-            savedState.Guesses.forEach((guess, r) => {
-                if (r < savedState.CurrentRow) { // Solo procesar filas ya enviadas
-                    guess.split('').forEach((char, c) => {
-                        if (char !== ' ' && savedState.LetterStatuses[r] && savedState.LetterStatuses[r][c] !== undefined) {
-                            const status = savedState.LetterStatuses[r][c];
-                            // Asegura que el estado de la tecla solo "mejora" (Correct > Present > Absent)
-                            if (!newKeyStatuses[char] || Object.values(LetterStatus).indexOf(newKeyStatuses[char]) < Object.values(LetterStatus).indexOf(status)) {
-                                newKeyStatuses[char] = status;
-                            }
-                        }
-                    });
-                }
-            });
-            initialKeyStatuses = newKeyStatuses;
-
-            // Ajustar activeCol para la fila actual
-            let newActiveCol = savedState.Guesses[initialCurrentRow].indexOf(' ');
-            if (newActiveCol === -1 && initialCurrentRow < MAX_GUESSES) { // Si la fila actual está llena, avanza a la siguiente
-                initialCurrentRow++;
-                newActiveCol = 0;
-            } else if (newActiveCol === -1 && initialCurrentRow === MAX_GUESSES) {
-                // Si la última fila está llena y el juego no ha terminado, deshabilitar entrada
-                newActiveCol = WORD_LENGTH;
-            }
-            setActiveCol(newActiveCol); // Establece activeCol basado en la fila actual
-        } else {
-            // Si no hay estado guardado válido o está desactualizado, inicializar desde daily.attemptsUsed
-            // Las adivinanzas y los estados de las letras se reiniciarán, ya que el backend no los proporciona para intentos pasados.
-            setActiveCol(0);
-        }
-
-        setTargetWord(initialTargetWord);
-        setGuesses(initialGuesses);
-        setCurrentRow(initialCurrentRow);
-        setGameStatus(initialGameStatus);
-        setLetterStatuses(initialLetterStatuses);
-        setKeyStatuses(initialKeyStatuses);
-        setIsLoading(false);
-    }, [getDailyWordFromServer]);
-
-
-    useEffect(() => {
-        startNewGame();
-    }, [startNewGame]);
-
+    useEffect(() => { loadInitialData(); }, [loadInitialData]);
     useEffect(() => {
         const handleKeyDown = (e) => {
             const key = e.key.toUpperCase();
@@ -350,76 +278,34 @@ export default function PalabraDiaria({ onLogout }) {
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyPress]);
-
     const getCellClass = (row, col) => {
-        let classes = ['cell', 'flex', 'items-center', 'justify-center', 'text-2xl', 'font-bold', 'uppercase', 'w-12', 'h-12', 'rounded-md', 'border-2', 'transition-all', 'duration-300'];
-        const status = letterStatuses[row] && letterStatuses[row][col] !== undefined ? letterStatuses[row][col] : LetterStatus.Default;
-
+        let classes = ['cell', 'flex', 'items-center', 'justify-center', 'text-2xl', 'font-bold', 'uppercase', 'w-12', 'h-12', 'rounded-md', 'border-2'];
+        const status = letterStatuses[row]?.[col] ?? LetterStatus.Default;
         switch (status) {
-            case LetterStatus.Correct:
-                classes = [...classes, 'bg-green-600', 'border-green-600', 'text-white'];
-                break;
-            case LetterStatus.Present:
-                classes = [...classes, 'bg-yellow-500', 'border-yellow-500', 'text-white'];
-                break;
-            case LetterStatus.Absent:
-                classes = [...classes, 'bg-gray-700', 'border-gray-700', 'text-white'];
-                break;
-            default:
-                classes = [...classes, 'bg-gray-900', 'text-gray-200', 'border-gray-600'];
+            case LetterStatus.Correct: classes.push('bg-green-600', 'border-green-600', 'text-white'); break;
+            case LetterStatus.Present: classes.push('bg-yellow-500', 'border-yellow-500', 'text-white'); break;
+            case LetterStatus.Absent: classes.push('bg-gray-700', 'border-gray-700', 'text-white'); break;
+            default: classes.push('bg-gray-900', 'text-gray-200', 'border-gray-600');
         }
-
         if (row === currentRow && col === activeCol && isPlaying) {
-            classes = [...classes, '!border-blue-500', 'animate-pulse'];
+            classes.push('!border-blue-500', 'animate-pulse');
         }
-
         return classes.join(' ');
     };
-
     const getKeyClass = (key) => {
-        let classes = ['key', 'p-3', 'rounded-md', 'text-lg', 'font-bold', 'uppercase', 'cursor-pointer', 'transition-colors', 'duration-200', 'select-none'];
+        let classes = ['key', 'p-3', 'rounded-md', 'text-lg', 'font-bold', 'cursor-pointer', 'select-none'];
         const status = keyStatuses[key];
-
         switch (status) {
-            case LetterStatus.Correct:
-                classes = [...classes, 'bg-green-600', 'text-white'];
-                break;
-            case LetterStatus.Present:
-                classes = [...classes, 'bg-yellow-500', 'text-white'];
-                break;
-            case LetterStatus.Absent:
-                classes = [...classes, 'bg-gray-700', 'text-white'];
-                break;
-            default:
-                classes = [...classes, 'bg-gray-600', 'hover:bg-gray-500', 'text-white'];
+            case LetterStatus.Correct: classes.push('bg-green-600', 'text-white'); break;
+            case LetterStatus.Present: classes.push('bg-yellow-500', 'text-white'); break;
+            case LetterStatus.Absent: classes.push('bg-gray-700', 'text-white'); break;
+            default: classes.push('bg-gray-600', 'hover:bg-gray-500', 'text-white');
         }
-
         return classes.join(' ');
     };
-
-    const handleCellClick = (row, col) => {
-        if (row === currentRow && isPlaying) {
-            setActiveCol(col);
-        }
-    };
-
     return (
         <div className="flex flex-col items-center justify-start p-6 bg-gray-950 text-white min-h-screen">
             <h3 className="text-3xl font-extrabold text-blue-400 mb-6">Adivina la Palabra</h3>
-
-            {/* Descripción del sistema de puntos */}
-            <div className="text-center mb-4 p-3 bg-gray-800 rounded-lg text-gray-300 text-sm max-w-md">
-                <p className="font-semibold text-base mb-1">Gana puntos adivinando la palabra en el menor número de intentos:</p>
-                <ul className="list-disc list-inside text-left mx-auto max-w-max">
-                    <li>1er intento: <strong className="text-green-400">500 pts</strong></li>
-                    <li>2do intento: <strong className="text-green-400">400 pts</strong></li>
-                    <li>3er intento: <strong className="text-green-400">300 pts</strong></li>
-                    <li>4to intento: <strong className="text-yellow-400">200 pts</strong></li>
-                    <li>5to intento: <strong className="text-yellow-400">100 pts</strong></li>
-                    <li>6to intento: <strong className="text-orange-400">50 pts</strong></li>
-                </ul>
-            </div>
-
             {isLoading ? (
                 <div className="text-xl text-blue-400">
                     <lucide.Loader2 className="animate-spin inline-block mr-2" size={24} />
@@ -427,42 +313,38 @@ export default function PalabraDiaria({ onLogout }) {
                 </div>
             ) : (
                 <>
-                    {/* Mensaje de límite de intentos */}
-                    {errorAttemptsExceeded && (
+                    {gameStatus === GameStatus.Lost && !errorAttemptsExceeded && (
                         <div className="bg-red-700 p-4 rounded-lg my-4 text-center text-white font-bold">
-                            Has alcanzado el límite de {MAX_GUESSES} intentos sin resolver la palabra. No puedes seguir jugando hoy.
+                            ¡Perdiste! La palabra era: <strong className="uppercase">{targetWord}</strong>
                         </div>
                     )}
-
-                    {/* Tablero */}
+                    {gameStatus === GameStatus.Won && (
+                        <div className="bg-green-600 p-4 rounded-lg my-4 text-center text-white font-bold">
+                            ¡Ganaste! La palabra era: <strong className="uppercase">{targetWord}</strong>
+                        </div>
+                    )}
+                    {errorAttemptsExceeded && (
+                        <div className="bg-red-700 p-4 rounded-lg my-4 text-center text-white font-bold">
+                            Has alcanzado el límite de {MAX_GUESSES} intentos sin resolver la palabra.
+                        </div>
+                    )}
                     <div className="board grid gap-2" style={{
                         gridTemplateColumns: `repeat(${WORD_LENGTH}, minmax(0, 1fr))`,
                         gridTemplateRows: `repeat(${MAX_GUESSES}, minmax(0, 1fr))`,
                     }}>
                         {guesses.flatMap((row, rowIndex) =>
-                            row.split('').map((char, colIndex) => (
-                                <div
-                                    key={`${rowIndex}-${colIndex}`}
-                                    className={getCellClass(rowIndex, colIndex)}
-                                    onClick={() => handleCellClick(rowIndex, colIndex)}
-                                >
+                            (row || ' '.repeat(WORD_LENGTH)).split('').map((char, colIndex) => (
+                                <div key={`${rowIndex}-${colIndex}`} className={getCellClass(rowIndex, colIndex)}>
                                     {char !== ' ' ? char : ''}
                                 </div>
                             ))
                         )}
                     </div>
-
-                    {/* Teclado en pantalla */}
                     <div className="keyboard mt-6 w-full max-w-lg">
                         {["QWERTYUIOP", "ASDFGHJKLÑ", "ZXCVBNM"].map((row, rowIndex) => (
                             <div key={rowIndex} className="flex justify-center my-1 space-x-1">
                                 {row.split('').map((key) => (
-                                    <button
-                                        key={key}
-                                        className={getKeyClass(key)}
-                                        onClick={() => handleKeyPress(key)}
-                                        disabled={!isPlaying}
-                                    >
+                                    <button key={key} className={getKeyClass(key)} onClick={() => handleKeyPress(key)} disabled={!isPlaying}>
                                         {key}
                                     </button>
                                 ))}
@@ -473,25 +355,33 @@ export default function PalabraDiaria({ onLogout }) {
                             <button className={`${getKeyClass(ENTER_KEY)} flex-grow`} onClick={() => handleKeyPress(ENTER_KEY)} disabled={!isPlaying}>ENTER</button>
                         </div>
                     </div>
+                    <div className="mt-8 bg-gray-800 p-4 rounded-lg max-w-md w-full text-sm text-gray-200">
+  <h4 className="text-lg font-bold text-purple-400 mb-2">Reglas del juego</h4>
+  <ul className="list-disc list-inside mb-4">
+    <li>Adivina la palabra de 5 letras.</li>
+    <li>Tienes hasta 6 intentos.</li>
+    <li>Las letras correctas en posición correcta se muestran en verde.</li>
+    <li>Las letras correctas en posición incorrecta se muestran en amarillo.</li>
+  </ul>
+  <h4 className="text-lg font-bold text-purple-400 mb-2">Puntos</h4>
+  <table className="w-full text-center border-collapse border border-gray-600">
+    <thead>
+      <tr className="bg-gray-700">
+        <th className="border border-gray-600 p-1">Intento</th>
+        <th className="border border-gray-600 p-1">Puntos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td className="border border-gray-600 p-1">1</td><td className="border border-gray-600 p-1">500</td></tr>
+      <tr><td className="border border-gray-600 p-1">2</td><td className="border border-gray-600 p-1">400</td></tr>
+      <tr><td className="border border-gray-600 p-1">3</td><td className="border border-gray-600 p-1">300</td></tr>
+      <tr><td className="border border-gray-600 p-1">4</td><td className="border border-gray-600 p-1">200</td></tr>
+      <tr><td className="border border-gray-600 p-1">5</td><td className="border border-gray-600 p-1">100</td></tr>
+      <tr><td className="border border-gray-600 p-1">6</td><td className="border border-gray-600 p-1">50</td></tr>
+    </tbody>
+  </table>
+</div>
 
-                    {/* Mensajes de resultado */}
-                    <div className="mt-4 text-center">
-                        {!isPlaying && !errorAttemptsExceeded && (
-                            <div className="result-message mb-3">
-                                {gameStatus === GameStatus.Won ? (
-                                    <div className="bg-green-600 p-4 rounded-lg">
-                                        <h4 className="text-xl font-bold">¡Ganaste!</h4>
-                                        <p>La palabra era: <strong>{targetWord}</strong></p>
-                                    </div>
-                                ) : (
-                                    <div className="bg-red-600 p-4 rounded-lg">
-                                        <h4 className="text-xl font-bold">¡Perdiste!</h4>
-                                        <p>La palabra era: <strong>{targetWord}</strong></p>
-                                    </div>
-                                )}
-                            </div>
-                        )}
-                    </div>
                 </>
             )}
         </div>

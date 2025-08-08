@@ -1205,6 +1205,11 @@
           "guess": {
             "type": "string",
             "nullable": true
+          },
+          "isSolved": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false

@@ -185,7 +185,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "MiJuegosWeb.Server.Controllers.GamePinController\u002BDailyPinInfoDto",
+        "Type": "MiJuegosWeb.Domain.DTOs.DailyPinInfoDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -205,13 +205,13 @@
     "Parameters": [
       {
         "Name": "request",
-        "Type": "MiJuegosWeb.Server.Controllers.GamePinController\u002BPinGuessRequestDto",
+        "Type": "MiJuegosWeb.Domain.DTOs.PinGuessRequestDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "MiJuegosWeb.Server.Controllers.GamePinController\u002BPinGuessResultDto",
+        "Type": "MiJuegosWeb.Domain.DTOs.PinGuessResultDto",
         "MediaTypes": [
           "text/plain",
           "application/json",

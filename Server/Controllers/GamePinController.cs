@@ -22,30 +22,7 @@ public class GamePinController : ControllerBase
         _context = context;
     }
 
-    // DTOs (Asegúrate de que estos estén en tu carpeta MiJuegosWeb.Domain.DTOs)
-    // ---
-    public class DailyPinInfoDto
-    {
-        public int GamePinId { get; set; }
-        public string? Pin { get; set; } // Será null si no está resuelto
-        public bool IsSolved { get; set; }
-        public int AttemptsUsed { get; set; } // ¡NUEVO! Para el frontend
-    }
-
-    public class PinGuessRequestDto
-    {
-        public int GamePinId { get; set; }
-        public string Guess { get; set; } = string.Empty;
-    }
-
-    public class PinGuessResultDto
-    {
-        public int Attempts { get; set; }
-        public bool IsSolved { get; set; }
-        public List<int> DigitStatuses { get; set; } = new(); // 1: Correcto, 2: Presente, 3: Ausente
-    }
-    // --- Fin DTOs
-
+   
     [HttpGet("dailypin")]
     public async Task<ActionResult<DailyPinInfoDto>> GetDailyPin()
     {
@@ -84,14 +61,14 @@ public class GamePinController : ControllerBase
             .FirstOrDefaultAsync();
 
         var alreadySolved = userGameResult?.IsSolved ?? false;
-        var attemptsUsed = userGameResult?.Attempts ?? 0; // Obtener los intentos usados
+        var attemptsUsed = userGameResult?.Attempts ?? 0;
 
         return new DailyPinInfoDto
         {
             GamePinId = gamePin.Id,
-            Pin = alreadySolved ? gamePin.Pin : null,
+            Pin = gamePin.Pin,
             IsSolved = alreadySolved,
-            AttemptsUsed = attemptsUsed // Enviamos los intentos usados al frontend
+            AttemptsUsed = attemptsUsed 
         };
     }
 

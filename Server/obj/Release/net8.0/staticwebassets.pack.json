@@ -1,8 +1,8 @@
 {
   "Files": [
     {
-      "Id": "E:\\MiJuegosWeb\\Server\\wwwroot\\fotos\\pablo.jpg",
-      "PackagePath": "staticwebassets\\fotos\\pablo.jpg"
+      "Id": "E:\\MiJuegosWeb\\perromonogames\\Server\\wwwroot\\fotos\\04ee722d-bf6b-4b2f-b943-695a8be1999a.jpg",
+      "PackagePath": "staticwebassets\\fotos\\04ee722d-bf6b-4b2f-b943-695a8be1999a.jpg"
     },
     {
       "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.Server.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",

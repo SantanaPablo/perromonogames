@@ -15,6 +15,8 @@ namespace MiJuegosWeb.Domain.DTOs
     {
         public int GameWordId { get; set; }
         public string Guess { get; set; } = string.Empty;
+        public int? IsSolved { get; set; }
+
     }
 
     public class WordGuessResultDto
@@ -25,11 +27,14 @@ namespace MiJuegosWeb.Domain.DTOs
         public List<LetterStatusDTO> LetterStatuses { get; set; } = new List<LetterStatusDTO>();
     }
 
+    // DTOs (Asegúrate de que estos estén en tu carpeta MiJuegosWeb.Domain.DTOs)
+    // ---
     public class DailyPinInfoDto
     {
         public int GamePinId { get; set; }
+        public string? Pin { get; set; } // Será null si no está resuelto
         public bool IsSolved { get; set; }
-        public string? Pin { get; set; } // null si no lo resolvió
+        public int AttemptsUsed { get; set; } // ¡NUEVO! Para el frontend
     }
 
     public class PinGuessRequestDto
@@ -42,8 +47,9 @@ namespace MiJuegosWeb.Domain.DTOs
     {
         public int Attempts { get; set; }
         public bool IsSolved { get; set; }
-        public List<int> DigitStatuses { get; set; } = new(); // 1: correcto, 2: presente, 3: ausente
+        public List<int> DigitStatuses { get; set; } = new(); // 1: Correcto, 2: Presente, 3: Ausente
     }
+    // --- Fin DTOs
 
     public enum LetterStatusDTO { Default, Correct, Present, Absent }
 
